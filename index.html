@@ -677,7 +677,7 @@
     width:min(580px,94vw);margin:auto;position:fixed;inset:0;max-height:92vh;overflow:auto;
   }
   dialog::backdrop{background:rgba(15,33,55,.5);backdrop-filter:blur(2px)}
-  .m-head{background:transparent;color:var(--ink);padding:16px 20px 12px;font-size:15px;font-weight:600;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;border-bottom:1px solid var(--line)}
+  .m-head{background:color-mix(in srgb,var(--card) 94%,transparent);backdrop-filter:blur(8px);color:var(--ink);padding:16px 20px 12px;font-size:15px;font-weight:600;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;border-bottom:1px solid var(--line)}
   .m-head button{background:none;border:none;color:var(--ink-faint);font-size:15px;padding:4px 9px;border-radius:7px;line-height:1}
   .m-head button:hover{background:var(--red-soft);color:var(--red)}
   .m-body{padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:13px}
@@ -722,8 +722,16 @@
     /* --- หัวเว็บ: แถวเดียว กระชับ --- */
     .masthead{
       padding:calc(8px + env(safe-area-inset-top)) 12px 8px;
-      gap:8px;flex-wrap:nowrap;overflow:hidden;
+      gap:8px;flex-wrap:nowrap;overflow:visible;
     }
+    /* เมนูบนมือถือ: ลอยเต็มความกว้าง ไม่โดนขอบจอตัด */
+    .menu{
+      position:fixed;top:auto;right:10px;left:10px;width:auto;min-width:0;
+      max-height:70vh;overflow:auto;z-index:120;
+    }
+    .menu button{padding:13px 14px;font-size:14px}
+    .menu-status{font-size:11.5px;padding:9px 14px 6px}
+    .user-menu{left:auto;right:10px;width:230px}
     .masthead .title{font-size:0;flex:none}
     .masthead .title::after{content:"TE";font-size:15px;font-weight:700;letter-spacing:.04em}
     .topnav{margin-left:2px;flex:none}
@@ -828,30 +836,44 @@
     }
 
     /* --- Dialog: แผ่นเต็มจอแบบ bottom sheet --- */
-    dialog{
-      width:100vw;max-width:100vw;max-height:92vh;
+    dialog:not([open]){display:none !important}
+    dialog[open]{
+      width:100vw;max-width:100vw;
+      height:auto;max-height:86vh;
       margin:auto 0 0;border-radius:18px 18px 0 0;
+      display:flex;flex-direction:column;overflow:hidden;
       animation:sheetUp .26s cubic-bezier(.2,.9,.3,1) !important;
+    }
+    .m-head{position:static;flex:none;background:var(--card)}
+    .m-body,.view-body,.cal-dlg-body{
+      flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;
     }
     @keyframes sheetUp{from{transform:translateY(40px);opacity:.6}to{transform:none;opacity:1}}
     .m-head{padding:15px 16px 12px;font-size:15px}
     .m-head button{font-size:18px;padding:6px 10px}
-    .m-body{padding:14px 16px;grid-template-columns:1fr;gap:12px}
+    .m-body{padding:13px 16px 16px;grid-template-columns:1fr 1fr;gap:10px 10px}
+    .m-body .field{min-width:0}
+    .m-body .full{grid-column:1/-1}
+    .field label{font-size:11px;margin-bottom:3px}
     .m-foot{
-      padding:12px 16px calc(12px + env(safe-area-inset-bottom));
-      position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--line);
+      padding:11px 16px calc(11px + env(safe-area-inset-bottom));
+      position:static;flex:none;background:var(--card);border-top:1px solid var(--line);
       flex-wrap:wrap;gap:8px;
     }
-    .m-foot button{flex:1;min-width:44%;padding:12px;font-size:13.5px}
+    .m-foot button{flex:1;min-width:44%;padding:11px;font-size:13.5px}
     #viewMakeTodo{flex:1 1 100%;margin-right:0 !important}
-    .field input,.field select,.field textarea{padding:12px;font-size:15px}
-    .field label.chk-row{height:44px}
+    .field input,.field select,.field textarea{padding:10px 11px;font-size:16px;border-radius:9px}
+    .field textarea{min-height:64px}
+    .m-body #eActivity{min-height:88px !important}
+    .field label.chk-row{height:42px;font-size:13.5px}
     .view-body{padding:14px 16px;max-height:none}
     .v-row{grid-template-columns:1fr;gap:3px}
     .prog-add{flex-wrap:wrap}
     .prog-add input{flex:1 1 100%;padding:12px;font-size:15px}
     .prog-add button{flex:1 1 100%;padding:11px}
-    .op-chip{padding:8px 14px;font-size:13px}
+    .op-chip{padding:7px 12px;font-size:12.5px}
+    .op-add input{padding:9px 11px;font-size:16px}
+    .owner-pick{gap:7px}
     .cal-dlg{width:100vw}
     .cal-dlg-item{padding:12px}
 
@@ -1026,7 +1048,7 @@
           <button id="wkPrev" title="สัปดาห์ก่อน">&lt;</button>
           <div class="week-title">
             <h2 id="wkRange"></h2>
-            <p>เสาร์ – ศุกร์</p>
+            <p>จันทร์ – อาทิตย์</p>
           </div>
           <button id="wkNext" title="สัปดาห์ถัดไป">&gt;</button>
         </div>
@@ -1976,9 +1998,9 @@ const tid=()=>"t"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 
 /* ---- สัปดาห์ เสาร์-ศุกร์ ---- */
 let wkOff=0;
-function weekStart(off){ // เสาร์ล่าสุด + off สัปดาห์
+function weekStart(off){ // จันทร์ล่าสุด + off สัปดาห์
   const d=new Date(); d.setHours(0,0,0,0);
-  d.setDate(d.getDate() - ((d.getDay()+1)%7) + off*7); // Sat=6 → (day+1)%7 = วันนับจากเสาร์
+  d.setDate(d.getDate() - ((d.getDay()+6)%7) + off*7); // Mon=1 → (day+6)%7 = วันนับจากจันทร์
   return d;
 }
 const iso=isoLocal;
