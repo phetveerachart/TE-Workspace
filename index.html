@@ -7,7 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="TE Workspace">
-<meta name="theme-color" content="#c8102e">
+<meta name="theme-color" content="#1f2429">
 <meta name="format-detection" content="telephone=no">
 <title>TE Workspace — To-do & Follow-up</title>
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238e0c1f'/%3E%3Cstop offset='1' stop-color='%23c8102e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='180' height='180' fill='url(%23g)'/%3E%3Ctext x='90' y='108' font-family='Helvetica,Arial,sans-serif' font-size='72' font-weight='bold' fill='%23ffffff' text-anchor='middle' letter-spacing='2'%3ETE%3C/text%3E%3Crect x='52' y='126' width='76' height='6' rx='3' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E">
@@ -15,923 +15,809 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700&family=Sarabun:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+  /* =========================================================
+     TE Workspace — "test bench" theme
+     Graphite chrome · bench-grey ground · brand red only for the
+     TE mark and primary actions. Status colours stay calm.
+     Type scale (14px base, ~1.2 ratio): 12 · 13 · 14 · 16 · 19 · 23 · 28
+     Radii by rank: 4 chips · 8 controls/cards · 14 dialogs/panels
+     ========================================================= */
   :root{
-    --navy:#8e0c1f; --navy-2:#c8102e; --navy-3:#e04a5f;
-    --ink:#1e2733; --ink-soft:#525e6e; --ink-faint:#8a94a1;
-    --paper:#f5f2f2; --card:#ffffff; --surface:#f7f9fb;
-    --line:#e2e7ed; --line-strong:#c9d2dc;
-    --accent:#c8102e; --accent-soft:#fbe9ec;
-    --blue:#2563eb; --blue-soft:#e8effc;
-    --green:#15803d; --green-soft:#e3f3e9;
-    --amber:#b45309; --amber-soft:#fdf0dc;
-    --red:#b91c1c;   --red-soft:#fbe9e7;
-    --gray-soft:#edf0f3;
-    --mono:"Consolas","SF Mono",Menlo,monospace;
-    --mark-bg:#fde68a; --mark-ink:#713f12;
-    --edge:rgba(30,39,51,.06);
-    --shadow:0 1px 2px rgba(90,10,25,.06),0 4px 14px rgba(90,10,25,.05);
-    --shadow-lift:0 4px 10px rgba(90,10,25,.10),0 12px 28px rgba(90,10,25,.10);
-    --r:10px;
+    --graphite:#1f2429; --graphite-2:#2b3137; --graphite-ink:#c9ced3;
+    --brand:#c8102e; --brand-ink:#a50d24; --brand-soft:#fbe8eb;
+    --navy:#a50d24; --navy-2:#c8102e; --navy-3:#e04a5f;      /* legacy names */
+    --accent:#c8102e; --accent-soft:#fbe8eb;
+
+    --ink:#1b1f24; --ink-soft:#56606a; --ink-faint:#868e97;
+    --paper:#eef0ee; --card:#ffffff; --surface:#f6f7f6; --lane:#e5e8e6;
+    --line:#dde1de; --line-strong:#c2c8c4; --edge:rgba(27,31,36,.08);
+
+    --blue:#1d5fbf;  --blue-soft:#e6eefa;
+    --green:#1e7a46; --green-soft:#e2f2e8;
+    --amber:#9a5500; --amber-soft:#fbefdc;
+    --red:#b42318;   --red-soft:#fbe9e7;
+    --gray-soft:#ebeeec;
+    --focus:#1d5fbf;
+
+    --mono:"IBM Plex Mono",ui-monospace,Consolas,Menlo,monospace;
+    --sans:"IBM Plex Sans Thai","IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+    --mark-bg:#fde68a; --mark-ink:#5c3a0a;
+
+    --shadow:0 1px 2px rgba(27,31,36,.06);
+    --shadow-lift:0 2px 6px rgba(27,31,36,.08),0 10px 24px rgba(27,31,36,.10);
+    --shadow-dlg:0 24px 60px rgba(15,18,22,.28);
+    --r-s:4px; --r:8px; --r-l:14px;
+    --gutter:32px; --maxw:1460px;
   }
+  body.dark{
+    --graphite:#15181c; --graphite-2:#22272d;
+    --ink:#e6e9ec; --ink-soft:#a1aab3; --ink-faint:#6f7882;
+    --paper:#16191d; --card:#1e2227; --surface:#23282e; --lane:#1a1e22;
+    --line:#2d333a; --line-strong:#424a53; --edge:rgba(255,255,255,.07);
+    --brand-soft:#3b1a21; --accent-soft:#3b1a21;
+    --blue:#7aa7ef; --blue-soft:#1b2a40;
+    --green:#5cc08a; --green-soft:#16301f;
+    --amber:#e3a548; --amber-soft:#33270f;
+    --red:#f0796c; --red-soft:#3a1b1a;
+    --gray-soft:#2a2f36; --focus:#7aa7ef;
+    --mark-bg:#5c4a12; --mark-ink:#ffe08a;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+    --shadow-lift:0 4px 12px rgba(0,0,0,.45),0 12px 28px rgba(0,0,0,.35);
+  }
+
   *{box-sizing:border-box;margin:0;padding:0}
-  h1,h2,h3,h4,.masthead .title,.sec-head h3,.week-title h2,.col-head,.brand h1,
-  #dlgTitle,#todoDlgTitle,#calDlgTitle,.m-head,.dash-greet h2{
-    font-family:"Kanit","Inter","Segoe UI",sans-serif;font-weight:600;letter-spacing:.005em;
-  }
+  html{-webkit-text-size-adjust:100%}
   body{
-    font:14px/1.55 "Sarabun","Inter","Segoe UI",system-ui,sans-serif;
-    background:
-      radial-gradient(900px 500px at 85% -10%, rgba(200,16,46,.05), transparent 60%),
-      radial-gradient(700px 460px at -10% 100%, rgba(37,99,235,.045), transparent 55%),
-      var(--paper);
-    background-attachment:fixed;
-    color:var(--ink);min-height:100vh;display:flex;flex-direction:column;
-    transition:background .35s,color .35s;
+    font:14px/1.6 var(--sans);font-feature-settings:"tnum" 0;
+    background:var(--paper);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;
+    -webkit-font-smoothing:antialiased;
   }
-  body::before{
-    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-  body > *{position:relative;z-index:1}
-  button{font:inherit;cursor:pointer}
-  button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+  h1,h2,h3,h4{font-family:var(--sans);font-weight:600;letter-spacing:0;line-height:1.3}
+  button{font:inherit;cursor:pointer;color:inherit}
+  button:disabled{cursor:progress;opacity:.6}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+  input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--focus);outline-offset:-1px}
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
   @media (hover:none){ .hover-acts,.t-tools{opacity:1 !important} }
+  [hidden]{display:none !important}
+  .tnum,.dates,.cal-num,.cnt,.kpi .num{font-variant-numeric:tabular-nums}
 
-
-
-
-  /* ===== View dialog ===== */
-  .view-body{padding:16px 20px;display:flex;flex-direction:column;gap:11px;max-height:62vh;overflow:auto}
-  .v-row{display:grid;grid-template-columns:110px 1fr;gap:10px;font-size:13.5px;align-items:start}
-  .v-row .v-k{font-size:11px;font-weight:650;color:var(--ink-soft);letter-spacing:.02em;padding-top:2px}
-  .v-row .v-v{color:var(--ink);word-break:break-word}
-  .v-v.pre{white-space:pre-line;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:12.8px;line-height:1.55}
-  .v-v .pill{margin-right:6px}
-
-  .prog-add{display:flex;gap:7px;margin-top:4px;padding-top:12px;border-top:1px dashed var(--line)}
-  .prog-add input{
-    flex:1;font:inherit;font-size:12.5px;padding:9px 12px;
-    border:1.5px dashed var(--line-strong);border-radius:9px;background:transparent;color:var(--ink);
-  }
-  .prog-add input:focus{outline:none;border-style:solid;border-color:var(--accent);background:var(--card);box-shadow:0 0 0 4px rgba(200,16,46,.08)}
-  .prog-add button{
-    border:1px solid var(--line-strong);background:var(--card);color:var(--ink-soft);
-    border-radius:9px;padding:0 16px;font-size:12.5px;
-  }
-  .prog-add button:hover{border-color:var(--accent);color:var(--accent)}
-
-  /* ===== Owner picker ===== */
-  .owner-pick{display:flex;flex-direction:column;gap:8px}
-  .op-chips{display:flex;flex-wrap:wrap;gap:6px}
-  .op-chip{
-    border:1px solid var(--line-strong);background:var(--card);color:var(--ink-soft);
-    border-radius:999px;padding:5px 13px;font-size:12.5px;cursor:pointer;user-select:none;
-    transition:all .12s;
-  }
-  .op-chip:hover{border-color:var(--accent);color:var(--accent)}
-  .op-chip.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
-  .op-add{display:flex;gap:6px}
-  .op-add input{flex:1;font:inherit;font-size:12.5px;padding:7px 10px;border:1px solid var(--line-strong);border-radius:8px;background:var(--card);color:var(--ink)}
-  .op-add button{border:1px solid var(--line-strong);background:var(--card);color:var(--ink-soft);border-radius:8px;padding:7px 14px;font-size:12.5px}
-  .op-add button:hover{border-color:var(--accent);color:var(--accent)}
-
-  /* ===== Glass ===== */
-  .masthead{backdrop-filter:blur(10px) saturate(1.15)}
-  .controls-outer{backdrop-filter:blur(8px)}
-  dialog{background:color-mix(in srgb, var(--card) 88%, transparent);backdrop-filter:blur(14px) saturate(1.2)}
-  dialog::backdrop{background:rgba(15,10,14,.45);backdrop-filter:blur(3px)}
-  .lg-card{background:rgba(255,255,255,.82);backdrop-filter:blur(16px) saturate(1.25);border:1px solid rgba(255,255,255,.6)}
-  @supports not (backdrop-filter:blur(1px)){
-    dialog{background:var(--card)}
-    .lg-card{background:rgba(255,255,255,.96)}
-  }
-
-  /* ===== Micro-delight ===== */
-  button{transition:transform .12s,background .15s,border-color .15s,box-shadow .15s}
-  button:active{transform:scale(.96)}
-  .todo-card.dragging{opacity:.5;transform:rotate(1.5deg) scale(1.02)}
-  dialog[open]{animation:dlgPop .28s cubic-bezier(.2,.9,.3,1.15)}
-  @keyframes dlgPop{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
-  .toast{transition:opacity .3s,transform .3s cubic-bezier(.2,1.4,.4,1)}
-  .toast.show{transform:translateX(-50%) translateY(0) scale(1)}
-  .fast-add:focus, #tblQ:focus{box-shadow:0 0 0 4px rgba(200,16,46,.10)}
-  .kpi .num,.col-head .cnt{transition:transform .2s}
-  .kpi:hover .num{transform:scale(1.06)}
-  .sub-item,.d-item,.cal-dlg-item,.task-item{transition:background .12s,transform .12s}
-  .d-item:hover,.cal-dlg-item:hover{transform:translateX(2px)}
-  .pill{transition:transform .15s}
-  select.pill:hover{transform:scale(1.04)}
-  @keyframes cntPulse{0%{transform:scale(1)}45%{transform:scale(1.25)}100%{transform:scale(1)}}
-  .cnt.pulse{animation:cntPulse .35s}
-
-  /* ===== Dark mode ===== */
-  body.dark{
-    --paper:#14171c; --card:#1d222a; --surface:#232935;
-    --line:#2e3542; --line-strong:#41495a; --edge:rgba(255,255,255,.06);
-    --ink:#e7eaef; --ink-soft:#9aa5b4; --ink-faint:#66707f;
-    --gray-soft:#2a303b;
-    --accent-soft:#3a1a24; --blue-soft:#182a45; --green-soft:#16301f;
-    --amber-soft:#33270f; --red-soft:#38181c;
-    --mark-bg:#5c4a12; --mark-ink:#ffe08a;
-    --shadow:0 1px 2px rgba(0,0,0,.35),0 4px 14px rgba(0,0,0,.25);
-    --shadow-lift:0 6px 14px rgba(0,0,0,.45),0 14px 30px rgba(0,0,0,.35);
-    background:
-      radial-gradient(900px 500px at 85% -10%, rgba(200,16,46,.10), transparent 60%),
-      radial-gradient(700px 460px at -10% 100%, rgba(37,99,235,.07), transparent 55%),
-      var(--paper);
-  }
-  body.dark .col[data-col="todo"]{background:#20252e}
-  body.dark .col[data-col="doing"]{background:#1e2634}
-  body.dark .col[data-col="done"]{background:#1e2b24}
-  body.dark tbody tr:hover{background:#2a2027}
-  body.dark .activity-box:hover{background:#262d38}
-  body.dark .cal-cell.has-items:hover{background:#242a34}
-  body.dark .masthead button.primary{background:#f4f5f7;color:#7c0a1b}
-  body.dark .topnav button.active{background:#f4f5f7;color:#7c0a1b}
-    body.dark thead th, body.dark .todo-table thead th{background:#262c38;color:#cfd6e0;border-bottom-color:var(--accent)}
-  body.dark tr.main-row td:first-child{border-left-color:#c8102e}
-  body.dark .searchbox kbd{background:#2a303b;border-color:#41495a}
-  body.dark .lg-card{background:rgba(28,32,40,.82);color:var(--ink)}
-  body.dark .lg-title{color:var(--ink)}
-  body.dark .lg-field input{background:rgba(20,23,28,.7);color:var(--ink)}
-  body.dark .lg-field label{background:transparent}
-  .theme-btn{
-    border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#fff;
-    border-radius:999px;padding:5px 13px;font-size:12px;font-weight:600;cursor:pointer;
-  }
-  .theme-btn:hover{background:rgba(255,255,255,.18)}
+  /* ===== Loading: sync progress bar ===== */
+  .syncbar{position:fixed;top:0;left:0;right:0;height:3px;z-index:200;pointer-events:none;overflow:hidden;opacity:0;transition:opacity .2s}
+  .syncbar::after{content:"";position:absolute;top:0;bottom:0;width:30%;background:var(--brand);animation:syncSlide 1.1s ease-in-out infinite}
+  body.syncing .syncbar{opacity:1}
+  @keyframes syncSlide{from{left:-30%}to{left:100%}}
 
   /* ===== Login ===== */
   .login{
     position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
-    background:linear-gradient(135deg,#5c0714 0%,#8e0c1f 45%,#c8102e 100%);
-    overflow:hidden;transition:opacity .45s,visibility .45s;
+    background:var(--graphite);transition:opacity .35s,visibility .35s;padding:16px;
+  }
+  .login::before{ /* one brand stripe, nothing else */
+    content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--brand);
   }
   .login.out{opacity:0;visibility:hidden}
-  .lg-bg span{
-    position:absolute;border-radius:50%;background:rgba(255,255,255,.05);
-    animation:lgFloat 14s ease-in-out infinite;
-  }
-  .lg-bg span:nth-child(1){width:420px;height:420px;top:-120px;left:-100px}
-  .lg-bg span:nth-child(2){width:300px;height:300px;bottom:-80px;right:8%;animation-delay:-5s}
-  .lg-bg span:nth-child(3){width:180px;height:180px;top:18%;right:24%;animation-delay:-9s}
-  @keyframes lgFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-26px)}}
+  .lg-bg{display:none}
   .lg-card{
-    position:relative;width:min(380px,90vw);text-align:center;
-    border-radius:20px;
-    box-shadow:0 24px 70px rgba(0,0,0,.35);
-    padding:38px 34px 30px;
-    animation:lgIn .5s cubic-bezier(.2,.8,.25,1);
+    position:relative;width:min(380px,100%);
+    background:var(--card);color:var(--ink);border-radius:var(--r-l);
+    box-shadow:var(--shadow-dlg);padding:32px 28px 24px;
+    animation:lgIn .4s cubic-bezier(.2,.8,.25,1);
   }
-  @keyframes lgIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+  @keyframes lgIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
   .lg-mark{
-    width:64px;height:64px;margin:0 auto 14px;border-radius:16px;
-    background:linear-gradient(135deg,#8e0c1f,#c8102e);color:#fff;
-    display:flex;align-items:center;justify-content:center;
-    font-family:"Kanit",sans-serif;font-size:24px;font-weight:700;letter-spacing:.03em;
-    box-shadow:0 8px 20px rgba(200,16,46,.35);
+    width:44px;height:44px;margin:0 0 20px;border-radius:var(--r);
+    background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:16px;letter-spacing:.04em;
   }
-  .lg-title{font-size:22px;font-weight:700;color:var(--ink)}
-  .lg-sub{font-size:12px;color:var(--ink-soft);letter-spacing:.12em;text-transform:uppercase;margin:3px 0 26px}
-  .lg-field{position:relative;text-align:left}
+  .lg-title{font-size:23px;font-weight:600;color:var(--ink)}
+  .lg-sub{font-size:13px;color:var(--ink-soft);margin:2px 0 24px}
+  .lg-field{position:relative}
+  .lg-field label{display:block;font-size:13px;font-weight:500;color:var(--ink-soft);margin-bottom:6px}
   .lg-field input{
-    width:100%;font:inherit;font-size:16px;letter-spacing:.06em;
-    padding:15px 14px 13px;border:1.5px solid var(--line-strong);border-radius:11px;
-    background:#fff;transition:border-color .2s,box-shadow .2s;text-transform:uppercase;
+    width:100%;font:inherit;font-size:16px;letter-spacing:.06em;text-transform:uppercase;
+    padding:11px 13px;border:1px solid var(--line-strong);border-radius:var(--r);
+    background:var(--card);color:var(--ink);transition:border-color .15s;
+    font-family:var(--mono);
   }
-  .lg-field input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(200,16,46,.12)}
-  .lg-field label{
-    position:absolute;left:12px;top:14px;padding:0 5px;background:#fff;color:var(--ink-faint);
-    font-size:14px;pointer-events:none;transition:all .18s;
-  }
-  .lg-field input:focus + label, .lg-field input:not(:placeholder-shown) + label{
-    top:-8px;font-size:11px;color:var(--accent);font-weight:600;
-  }
+  .lg-field input:focus{outline:none;border-color:var(--focus);box-shadow:0 0 0 3px color-mix(in srgb,var(--focus) 22%,transparent)}
+  .lg-field input[aria-invalid="true"]{border-color:var(--red)}
   .lg-btn{
-    width:100%;margin-top:18px;padding:13px;border:none;border-radius:11px;
-    background:linear-gradient(135deg,#a50d24,#c8102e);color:#fff;
-    font-family:"Kanit",sans-serif;font-size:15px;font-weight:600;cursor:pointer;
-    box-shadow:0 8px 18px rgba(200,16,46,.3);transition:transform .15s,box-shadow .15s;
+    width:100%;margin-top:16px;padding:12px;border:none;border-radius:var(--r);
+    background:var(--brand);color:#fff;font-size:15px;font-weight:600;
+    transition:background .15s;
   }
-  .lg-btn:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(200,16,46,.4)}
-  .lg-btn:active{transform:translateY(0)}
-  .lg-err{
-    display:none;margin-top:10px;font-size:12.5px;color:var(--red);
-    background:var(--red-soft);border-radius:8px;padding:8px;
-  }
+  .lg-btn:hover{background:var(--brand-ink)}
+  .lg-err{display:none;margin-top:10px;font-size:13px;color:var(--red)}
   .lg-err.show{display:block}
-  .lg-card.shake{animation:lgShake .4s}
-  @keyframes lgShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-9px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
-  .lg-hint{margin-top:16px;font-size:11.5px;color:var(--ink-faint)}
-  .who-chip{
-    border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.1);color:#fff;
-    border-radius:999px;padding:5px 14px;font-size:12px;font-weight:600;cursor:pointer;
-  }
-  .who-chip:hover{background:rgba(255,255,255,.2)}
+  .lg-card.shake{animation:lgShake .35s}
+  @keyframes lgShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}50%{transform:translateX(6px)}75%{transform:translateX(-3px)}}
+  .lg-hint{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-faint)}
+  .lg-hint code{font-family:var(--mono);color:var(--ink-soft)}
 
   /* ===== Masthead ===== */
   .masthead{
-    position:relative;z-index:50;
-    padding-top:calc(9px + env(safe-area-inset-top));
-    padding-left:calc(28px + env(safe-area-inset-left));
-    padding-right:calc(28px + env(safe-area-inset-right));
-    background:linear-gradient(120deg,#7c0a1b 0%,#c8102e 85%);
-    color:#fff;padding:9px 28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+    position:relative;z-index:50;display:flex;align-items:center;gap:12px;
+    background:var(--graphite);color:#fff;
+    padding:0 calc(var(--gutter) + env(safe-area-inset-right)) 0 calc(var(--gutter) + env(safe-area-inset-left));
+    padding-top:env(safe-area-inset-top);
+    min-height:calc(52px + env(safe-area-inset-top));
   }
-  .masthead .title{font-size:15px;font-weight:650;letter-spacing:.01em}
-  .masthead .subtitle{display:none}
+  .brand{display:flex;align-items:center;gap:10px;flex:none}
+  .brand-mark{
+    width:28px;height:28px;border-radius:6px;background:var(--brand);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;letter-spacing:.04em;
+  }
+  .masthead .title{font-size:15px;font-weight:600;color:#fff;white-space:nowrap}
   .masthead .spacer{flex:1}
   .masthead button{
-    font-size:12.5px;padding:8px 14px;border-radius:8px;
-    border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.06);color:#fff;
-    transition:background .15s;
+    white-space:nowrap;font-size:13px;padding:7px 12px;border-radius:var(--r);
+    border:1px solid rgba(255,255,255,.18);background:transparent;color:#fff;transition:background .15s,border-color .15s;
   }
-  .masthead button:hover{background:rgba(255,255,255,.16)}
-  .masthead button.primary{background:#fff;color:var(--navy);border-color:#fff;font-weight:650}
-  .masthead button.primary:hover{background:#e6ecf4}
+  .masthead button:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.32)}
+  .topnav{display:flex;gap:4px;margin-left:16px;align-self:stretch}
+  .topnav button{
+    border:none;border-radius:0;background:transparent;color:var(--graphite-ink);
+    padding:0 12px;font-size:14px;font-weight:500;position:relative;
+  }
+  .topnav button:hover{background:transparent;color:#fff}
+  .topnav button.active{color:#fff;font-weight:600}
+  .topnav button.active::after{content:"";position:absolute;left:12px;right:12px;bottom:0;height:3px;border-radius:3px 3px 0 0;background:var(--brand)}
+  .mh-divider{width:1px;height:20px;background:rgba(255,255,255,.16)}
+  #btnData[data-state="warn"]::after{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#f5a623;margin-left:7px;vertical-align:1px}
+  #btnData[data-state="busy"]::after{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#7aa7ef;margin-left:7px;vertical-align:1px}
+  .theme-btn{width:34px;height:34px;padding:0 !important;font-size:15px;line-height:1;border-radius:999px !important}
+  .who-chip{border-radius:999px !important;padding:6px 14px !important;font-weight:500}
 
-  .topnav{display:flex;gap:2px;margin-left:20px;background:rgba(0,0,0,.16);padding:3px;border-radius:9px}
-  .topnav button{border:none;background:transparent;color:#f3c2ca;padding:6px 15px;border-radius:7px;font-size:12.5px;font-weight:600}
-  .topnav button.active{background:#fff;color:var(--navy)}
-  .topnav button:not(.active):hover{background:rgba(255,255,255,.12);color:#fff}
   .menu-wrap{position:relative}
   .menu{
-    display:none;position:absolute;right:0;top:calc(100% + 6px);z-index:40;
-    background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow-lift);
-    min-width:210px;padding:6px;
+    display:none;position:absolute;right:0;top:calc(100% + 8px);z-index:40;
+    background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:var(--r);
+    box-shadow:var(--shadow-lift);min-width:232px;padding:6px;
   }
   .menu.open{display:block}
   .menu button{
     display:block;width:100%;text-align:left;border:none;background:none;color:var(--ink);
-    padding:9px 12px;border-radius:7px;font-size:13px;
+    padding:8px 10px;border-radius:6px;font-size:13px;
   }
-  .menu button:hover{background:var(--gray-soft)}
+  .menu button:hover{background:var(--gray-soft);border:none}
   .menu button.danger{color:var(--red)}
   .menu button.danger:hover{background:var(--red-soft)}
-  .menu hr{border:none;border-top:1px solid var(--line);margin:5px 4px}
-  .mh-divider{width:1px;height:22px;background:rgba(255,255,255,.28);align-self:center}
-  .user-menu{right:0;left:auto;min-width:224px;padding:5px;overflow:hidden}
-  .um-row{display:flex;align-items:center;gap:10px;padding:8px 9px 9px}
+  .menu hr{border:none;border-top:1px solid var(--line);margin:6px 4px}
+  .menu-status{font-size:12px;color:var(--ink-soft);padding:6px 10px 8px;border-bottom:1px solid var(--line);margin-bottom:6px;min-height:14px}
+  .menu-status:empty{display:none}
+  .menu-status.warn{color:var(--amber)}
+  .user-menu{min-width:224px;padding:6px}
+  .um-row{display:flex;align-items:center;gap:10px;padding:6px 8px 10px}
   .um-avatar{
-    width:34px;height:34px;border-radius:999px;flex:none;
-    background:var(--accent);color:#fff;
-    display:flex;align-items:center;justify-content:center;
-    font-family:"Kanit",sans-serif;font-weight:600;font-size:12.5px;letter-spacing:.02em;
+    width:34px;height:34px;border-radius:999px;flex:none;background:var(--graphite-2);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px;
   }
   .um-info{min-width:0}
-  .um-name{font-weight:700;font-size:13px;color:var(--ink);line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .um-id{font-size:11px;color:var(--ink-faint);letter-spacing:.04em;font-variant-numeric:tabular-nums}
-  .um-sep{height:1px;background:var(--line);margin:1px 6px 4px}
-  #btnLogout{
-    display:block;width:100%;text-align:left;
-    padding:8.5px 10px;border:none;border-radius:8px;background:none;
-    color:var(--red);font-size:12.5px;font-weight:600;cursor:pointer;
-    transition:background .12s;
-  }
+  .um-name{font-weight:600;font-size:14px;color:var(--ink);line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .um-id{font-size:12px;color:var(--ink-faint);font-family:var(--mono)}
+  .um-sep{height:1px;background:var(--line);margin:0 4px 6px}
+  #btnLogout{color:var(--red);font-weight:500}
   #btnLogout:hover{background:var(--red-soft)}
-  .fab{
-    position:fixed;right:calc(30px + env(safe-area-inset-right));bottom:calc(30px + env(safe-area-inset-bottom));z-index:60;
-    border:none;border-radius:999px;padding:15px 26px;
-    background:linear-gradient(135deg,#a50d24,#c8102e);color:#fff;
-    font-family:"Kanit",sans-serif;font-size:14.5px;font-weight:600;cursor:pointer;
-    box-shadow:0 10px 26px rgba(200,16,46,.42),0 3px 8px rgba(0,0,0,.18);
-    transition:transform .16s,box-shadow .16s;
-  }
-  .fab:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(200,16,46,.5)}
-  .fab:active{transform:translateY(-1px) scale(.98)}
-  .theme-btn{width:34px;height:34px;padding:0;font-size:15px;line-height:1;border-radius:999px}
-  .menu-status{font-size:11px;color:var(--ink-soft);padding:7px 12px 4px;border-bottom:1px dashed var(--line);margin-bottom:4px;min-height:14px}
 
+  /* ===== Notice bar ===== */
   .notice{
     display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap;
-    padding:8px 20px;font-size:12.5px;border-bottom:1px solid var(--line);
+    padding:8px var(--gutter);font-size:13px;border-bottom:1px solid var(--line);
   }
-  .notice.n-mock{background:var(--blue-soft);color:var(--blue)}
-  .notice.n-backup{background:var(--amber-soft);color:var(--amber)}
-  .notice button{border:1px solid currentColor;background:transparent;color:inherit;border-radius:7px;padding:4px 13px;font-size:12px;font-weight:600}
-  .notice button:hover{background:rgba(255,255,255,.5)}
-  .notice .n-x{border:none;font-weight:400;opacity:.7;padding:4px 6px}
+  .notice.n-mock{background:var(--blue-soft);color:var(--ink)}
+  .notice.n-mock b{color:var(--blue);font-weight:600;margin:0 3px}
+  .notice.n-backup{background:var(--amber-soft);color:var(--ink)}
+  .notice button{border:1px solid var(--line-strong);background:var(--card);color:var(--ink);border-radius:6px;padding:4px 12px;font-size:12px;font-weight:500}
+  .notice button:hover{border-color:var(--ink-soft)}
+  .notice .n-x{border:none;background:none;color:var(--ink-soft);padding:4px 6px}
 
-  /* ===== Summary strip ===== */
-  .summary-outer{padding:20px 32px 0}
-  .summary{display:flex;gap:12px;padding:20px 32px 0;flex-wrap:wrap;width:100%;max-width:1460px;margin:0 auto}
-  .kpi{
-    background:var(--card);border:none;box-shadow:inset 0 0 0 1px rgba(30,39,51,.06),var(--shadow);border-radius:12px;
-    padding:11px 18px;min-width:124px;cursor:pointer;text-align:left;position:relative;overflow:hidden;
-    transition:box-shadow .15s,transform .15s;
+  /* ===== Shared controls ===== */
+  .sort-sel,.controls select,.fast-add{
+    height:36px;font:inherit;font-size:13px;padding:0 10px;border:1px solid var(--line-strong);
+    border-radius:var(--r);background:var(--card);color:var(--ink);
   }
-  .kpi::before{display:none}
-  .kpi:hover{background:var(--surface)}
-  .kpi .num{font-family:"Kanit",sans-serif;font-size:28px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1;letter-spacing:.01em}
-  .kpi .lbl{font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;margin-top:1px}
-  .kpi.active{background:var(--accent-soft);box-shadow:inset 0 -2.5px 0 var(--accent)}
-  .kpi.k-prog::before{background:var(--blue)} .kpi.k-prog .num{color:var(--blue)}
-  .kpi.k-done::before{background:var(--green)} .kpi.k-done .num{color:var(--green)}
-  .kpi.k-over::before{background:var(--red)}  .kpi.k-over .num{color:var(--red)}
-  .kpi.k-high::before{background:var(--amber)} .kpi.k-high .num{color:var(--amber)}
+  .sort-sel,.controls select{cursor:pointer;max-width:200px}
+  .fast-add{min-width:220px}
+  .view-toggle{display:flex;height:36px;border:1px solid var(--line-strong);border-radius:var(--r);overflow:hidden;background:var(--card)}
+  .view-toggle button{border:none;background:transparent;padding:0 14px;font-size:13px;color:var(--ink-soft);transition:background .12s,color .12s}
+  .view-toggle button+button{border-left:1px solid var(--line)}
+  .view-toggle button:hover{color:var(--ink);background:var(--surface)}
+  .view-toggle button.active{background:var(--graphite);color:#fff}
+  body.dark .view-toggle button.active{background:#e6e9ec;color:#16191d}
+  .tool-btn,.side-toggle{
+    height:36px;border:1px solid var(--line-strong);background:var(--card);color:var(--ink);
+    border-radius:var(--r);padding:0 14px;font-size:13px;transition:border-color .12s;
+  }
+  .side-toggle{height:30px;padding:0 10px;font-size:12px;color:var(--ink-soft)}
+  .tool-btn:hover,.side-toggle:hover{border-color:var(--ink-soft);color:var(--ink)}
+  .add-btn{
+    height:36px;border:none;background:var(--brand);color:#fff;font-weight:600;font-size:13px;
+    border-radius:var(--r);padding:0 16px;transition:background .12s;
+  }
+  .add-btn:hover{background:var(--brand-ink)}
+  .icon-btn{border:none;background:none;padding:4px 8px;border-radius:6px;font-size:12px;color:var(--ink-soft)}
+  .icon-btn:hover{background:var(--gray-soft);color:var(--ink)}
+  .icon-btn.danger:hover{background:var(--red-soft);color:var(--red)}
+  kbd{font:11px var(--mono);color:var(--ink-soft);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 5px;background:var(--surface)}
 
-  /* ===== Controls (sticky) ===== */
-  .controls-outer{
-    position:sticky;top:0;z-index:20;background:linear-gradient(var(--paper) 78%,rgba(238,241,245,0));
-    padding-bottom:6px;
-  }
-  .controls{padding:12px 32px 4px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;width:100%;max-width:1460px;margin:0 auto}
-  .searchbox{position:relative;flex:1 1 170px;min-width:170px;max-width:300px}
-  .searchbox input{
-    width:100%;font:inherit;padding:9px 60px 9px 34px;border:1px solid var(--line-strong);
-    border-radius:9px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .15s;
-  }
-  .searchbox input:focus{outline:2px solid var(--accent);outline-offset:-1px;box-shadow:var(--shadow-lift)}
-  .searchbox .icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--ink-soft);pointer-events:none}
-  .searchbox kbd{position:absolute;right:34px;top:50%;transform:translateY(-50%);font:11px var(--mono);color:var(--ink-soft);border:1px solid var(--line);border-radius:4px;padding:1px 5px;background:var(--gray-soft)}
-  .searchbox .clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:none;background:none;color:var(--ink-soft);font-size:14px;padding:2px 6px;display:none;border-radius:5px}
-  .searchbox .clear:hover{background:var(--gray-soft);color:var(--ink)}
-  .searchbox.has-value .clear{display:block}.searchbox.has-value kbd{display:none}
-  .controls select, .controls .view-toggle{height:34px}
-  .controls select{
-    max-width:185px;font:inherit;font-size:12px;padding:8px 7px;border:1px solid var(--line-strong);
-    border-radius:8px;background:var(--card);cursor:pointer;box-shadow:var(--shadow);
-  }
-  .stat{font-size:12px;color:var(--ink-soft);white-space:nowrap}
-  .view-toggle{margin-left:auto;display:flex;border:1px solid var(--line-strong);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
-  .view-toggle button{border:none;background:var(--card);padding:8px 14px;font-size:12.5px;color:var(--ink-soft);transition:background .15s}
-  .view-toggle button.active{background:var(--navy-2);color:#fff}
+  /* ===== Section heads ===== */
+  .sec-head{display:flex;justify-content:space-between;align-items:center;gap:12px 16px;flex-wrap:wrap;margin-bottom:16px}
+  .sec-head h3{font-size:23px;font-weight:600;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .week-side .sec-head h3{font-size:16px;flex-direction:column;gap:0}
+  .panel-sub{font-size:12px;font-weight:400;color:var(--ink-soft)}
+  .sec-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .pr-legend{font-size:12px;font-weight:400;color:var(--ink-soft)}
+  .pr-legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 4px 0 10px;vertical-align:0}
+  .pr-legend i:first-child{margin-left:0}
 
-  /* search hit banner */
-  .hitbar{
-    display:none;max-width:1460px;margin:2px auto 0;padding:0 32px;width:100%;
-    font-size:12px;color:var(--mark-ink);
-  }
-  body.searching .hitbar{display:block}
-  .hitbar span{background:var(--mark-bg);border-radius:4px;padding:2px 8px}
-
-  /* ===== Dashboard (แนวนอน) ===== */
-  .dash{padding:24px 32px calc(48px + env(safe-area-inset-bottom))}
-  .dash-inner{max-width:1460px;margin:0 auto}
-  .dash-cols{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:stretch;height:calc(100vh - 128px);min-height:480px}
+  /* ===== To-do page ===== */
+  .dash{padding:24px var(--gutter) calc(40px + env(safe-area-inset-bottom))}
+  .dash-inner{max-width:var(--maxw);margin:0 auto}
+  .dash-cols{display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:24px;align-items:stretch;height:calc(100vh - 116px);min-height:500px}
   .dash-cols .board-sec{display:flex;flex-direction:column;min-height:0;min-width:0}
   .dash-cols .board{flex:1;min-height:0}
-  .todo-tablewrap{flex:1;min-height:0;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
-  .tbl-bar{display:flex;gap:8px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--line);flex-wrap:wrap;position:sticky;left:0}
-  .todo-table thead th{cursor:pointer;user-select:none}
-  .todo-table thead th .ar{font-size:9px;margin-left:4px}
-  .todo-cal{flex:1;min-height:0;height:100%;overflow:hidden;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--edge);border-radius:12px;box-shadow:var(--shadow);padding:14px}
-  .cal-nav{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:10px}
-  .cal-nav button{border:1px solid var(--line-strong);background:var(--card);border-radius:8px;padding:5px 12px}
-  .cal-nav button:hover{border-color:var(--accent);color:var(--accent)}
-  .cal-nav span{font-weight:700;font-size:14px;min-width:140px;text-align:center}
-  .cal-grid{flex:1;min-height:0;min-width:0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));grid-auto-rows:max-content;gap:4px;overflow-y:auto;overflow-x:hidden;align-content:start}
-  .cal-dow{font-size:10.5px;font-weight:700;color:var(--ink-soft);text-align:center;padding:4px 0}
-  .cal-cell{border:1px solid var(--gray-soft);border-radius:8px;padding:5px 6px;min-height:74px;min-width:0;display:flex;flex-direction:column;gap:2px}
-  .cal-cell.dim{opacity:.38}
-  .cal-cell.tday{border:2px solid var(--accent);background:var(--accent-soft)}
-  .cal-cell.tday .cal-num{
-    background:var(--accent);color:#fff;border-radius:999px;width:20px;height:20px;
-    display:inline-flex;align-items:center;justify-content:center;font-size:10.5px;
-  }
-  .today-tag{font-size:9px;font-weight:700;background:var(--accent);color:#fff;border-radius:4px;padding:1px 6px;vertical-align:1px;margin-left:4px}
-  .cal-num{font-size:11px;font-weight:650;color:var(--ink-soft)}
-  .cal-it{font-size:10.5px;line-height:1.3;border-radius:4px;padding:1.5px 5px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;max-width:100%}
-  .cal-it.c-todo{background:var(--gray-soft)}
-  .cal-it.c-doing{background:var(--blue-soft);color:var(--blue)}
-  .cal-it.c-done{background:var(--green-soft);color:var(--green);text-decoration:line-through}
-  .cal-it.c-late{background:var(--red-soft);color:var(--red)}
-  .cal-it.c-more{background:none;color:var(--accent);font-weight:650}
-  .cal-cell.has-items{cursor:pointer}
-  .cal-cell.has-items:hover{border-color:var(--line-strong);background:#fcfcfd}
-  .cal-dlg{width:min(420px,92vw)}
-  .cal-dlg-body{padding:14px 16px;display:flex;flex-direction:column;gap:6px;max-height:60vh;overflow:auto}
-  .cal-dlg-item{display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid var(--line);border-radius:9px;cursor:pointer;font-size:13px}
-  .cal-dlg-item:hover{border-color:var(--accent);background:var(--accent-soft)}
-  .cal-dlg-item .st{font-size:10px;font-weight:700;border-radius:4px;padding:2px 7px;flex:none}
-  .cal-dlg-item .st.c-todo{background:var(--gray-soft);color:var(--ink-soft)}
-  .cal-dlg-item .st.c-doing{background:var(--blue-soft);color:var(--blue)}
-  .cal-dlg-item .st.c-done{background:var(--green-soft);color:var(--green)}
-  .cal-dlg-item .st.c-late{background:var(--red-soft);color:var(--red)}
-  .cal-dlg-item .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .cal-dlg-item .ow{font-size:11px;color:var(--ink-soft)}
-  .week-side{display:flex;flex-direction:column;overflow:hidden;border-radius:14px;transition:none}
-  .side-toggle{border:1px solid var(--line-strong);background:var(--card);border-radius:7px;padding:4px 11px;font-size:11.5px;color:var(--ink-soft)}
-  .side-toggle:hover{border-color:var(--accent);color:var(--accent)}
-  .dash-cols.side-off{grid-template-columns:minmax(0,1fr) 44px}
-  .week-rail{
-    display:none;flex-direction:column;align-items:center;gap:12px;
-    background:var(--card);border:1px solid var(--edge);border-radius:999px;box-shadow:var(--shadow);
-    cursor:pointer;padding:16px 0 18px;width:44px;height:auto;align-self:center;justify-self:center;
-    transition:box-shadow .15s,transform .15s;
-  }
-  .week-rail:hover{box-shadow:var(--shadow-lift);transform:translateX(-2px)}
-  .week-rail .rail-arrow{font-size:13px;color:var(--ink-soft);line-height:1}
-  .week-rail .rail-badge{
-    min-width:22px;height:22px;border-radius:999px;background:var(--accent);color:#fff;
-    font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px;
-  }
-  .week-rail span.rail-tx{writing-mode:vertical-rl;font-size:11.5px;font-weight:650;color:var(--ink-soft);letter-spacing:.1em}
-  .week-rail:hover span.rail-tx{color:var(--accent)}
-  .dash-cols.side-off .week-side{display:none}
-  .dash-cols.side-off .week-rail{display:flex}
-  .week-side .weekstrip{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding-right:2px;min-width:0}
-  .week-side .weekstrip::-webkit-scrollbar{width:8px}
-  .week-side .weekstrip::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:4px}
-  .sec-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .sec-tools .view-toggle{height:34px}
-  .sec-tools .view-toggle button{padding-top:0;padding-bottom:0}
-  .sort-sel{height:34px;font:inherit;font-size:12px;padding:0 9px;border:1px solid var(--line-strong);border-radius:8px;background:var(--card);cursor:pointer;color:var(--ink-soft)}
-  .fast-add{height:34px;font:inherit;font-size:12.5px;padding:0 12px;border:1px solid var(--line-strong);border-radius:8px;background:var(--card);min-width:230px;color:var(--ink)}
-  .fast-add:focus{outline:2px solid var(--accent);outline-offset:-1px}
-  .rep-tag{background:var(--blue-soft);color:var(--blue);border-radius:4px;padding:1px 6px;font-size:10px;font-weight:650}
-  .link-chip{
-    display:inline-block;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-    background:var(--surface);border:1px solid var(--line);color:var(--ink-soft);
-    font-size:10px;border-radius:4px;padding:1px 7px;cursor:pointer;vertical-align:-2px;
-  }
-  .link-chip:hover{border-color:var(--accent);color:var(--accent)}
-  .link-chip::before{content:"↳ ";opacity:.7}
-  .t-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:1px}
-  .t-dot.td-high, .pr-legend i.td-high{background:var(--red)}
-  .t-dot.td-med, .pr-legend i.td-med{background:var(--amber)}
-  .t-dot.td-low, .pr-legend i.td-low{background:#b6bcc4}
-  .pr-legend{font-family:"Sarabun",sans-serif;font-size:11px;font-weight:500;color:var(--ink-soft);margin-left:10px}
-  .pr-legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 3px 0 8px;vertical-align:0}
-  .tool-btn{border:1px solid var(--line-strong);background:var(--card);border-radius:8px;padding:7px 13px;font-size:12.5px;box-shadow:var(--shadow)}
-  .tool-btn:hover{border-color:var(--accent);color:var(--accent)}
-  .add-btn{border:none;background:var(--navy-2);color:#fff;font-weight:650;border-radius:8px;padding:8px 16px}
-  .add-btn:hover{background:var(--navy)}
-  .todo-table tbody tr{background:var(--card)}
-  .todo-table{width:100%;border-collapse:collapse;min-width:760px}
-  .todo-table thead th{text-align:left;font-size:11px;font-weight:650;text-transform:uppercase;letter-spacing:.05em;color:#fff;background:var(--navy-2);padding:9px 10px;white-space:nowrap}
-  .todo-table td{padding:8px 10px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:top}
-  .todo-table tbody tr{cursor:pointer}
-  .todo-table tbody tr:hover{background:#faf4f5}
-  .todo-table .done-row .td-title{text-decoration:line-through;color:var(--ink-soft)}
-  .week-nav{display:flex;align-items:center;gap:8px;justify-content:space-between;margin-bottom:6px}
-  .week-nav button{border:1px solid var(--line-strong);background:var(--card);border-radius:8px;padding:6px 11px;box-shadow:var(--shadow)}
-  .week-nav button:hover{border-color:var(--accent);color:var(--accent)}
-  .wk-today{width:100%;border:1px dashed var(--line-strong);background:none;border-radius:8px;padding:4px;font-size:11.5px;color:var(--ink-soft);margin-bottom:8px}
-  .wk-today:hover{border-color:var(--accent);color:var(--accent)}
-  .week-title{text-align:center}
-  .week-title h2{font-size:16.5px;font-weight:700}
-  .week-title p{font-size:11px;color:var(--ink-soft)}
+  .board-sec{background:var(--card);border:1px solid var(--line);border-radius:var(--r-l);padding:16px 18px}
+  .board-sec.plain{background:transparent;border:none;padding:0}
 
-  .board-sec{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:15px 17px}
-  .board-sec.plain{background:transparent;border:none;box-shadow:none;padding:0}
-  .sec-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
-  .sec-head h3{font-size:14px;font-weight:700;display:flex;align-items:baseline;gap:8px}
-  .panel-sub{font-size:11px;font-weight:500;color:var(--ink-soft)}
-  .quickadd{display:flex;gap:7px;flex:1;max-width:520px;min-width:260px}
-  .quickadd input{font:inherit;padding:8px 12px;border:1px solid var(--line-strong);border-radius:8px;background:var(--card)}
-  .quickadd input#quickName{flex:1}
-  .quickadd input:focus{outline:2px solid var(--accent);outline-offset:-1px}
-  .quickadd button{border:none;background:var(--navy-2);color:#fff;font-weight:650;border-radius:8px;padding:8px 15px}
-  .quickadd button:hover{background:var(--navy)}
-
-  /* Kanban แนวนอน */
-  .board{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
-  .col{border:none;border-radius:14px;padding:12px 12px 10px;height:100%;min-height:0;display:flex;flex-direction:column;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(30,39,51,.05)}
-  .col[data-col="todo"]{background:#f1f3f6}
-  .col[data-col="doing"]{background:#eef4fb}
-  .col[data-col="done"]{background:#edf5f0}
-  .col-body{flex:1;min-height:0;overflow-y:auto;padding:2px 4px 2px 2px}
-  .col-body::-webkit-scrollbar{width:8px}
-  .col-body::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:4px}
-  .col-body::-webkit-scrollbar-track{background:transparent}
-  .col.dragover{outline:2px dashed var(--accent);outline-offset:-4px;background:var(--accent-soft)}
-  .col-head{flex:none;display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;padding:2px 6px 10px;margin-bottom:6px}
-  .col-head .cnt{
-    font-family:"Kanit",sans-serif;
-    font-size:14px;font-weight:750;font-variant-numeric:tabular-nums;line-height:1;
-    border-radius:999px;padding:5px 11px;margin-left:auto;color:#fff;
+  /* Kanban */
+  .board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch}
+  .col{
+    border-radius:var(--r-l);background:var(--lane);height:100%;min-height:0;
+    display:flex;flex-direction:column;overflow:hidden;border-top:3px solid var(--ink-faint);
   }
-  .col[data-col="todo"] .cnt{background:#8a94a1}
-  .col[data-col="doing"] .cnt{background:var(--blue)}
-  .col[data-col="done"] .cnt{background:var(--green)}
-  .col-head .dot{width:10px;height:10px;border-radius:50%}
+  .col[data-col="doing"]{border-top-color:var(--blue)}
+  .col[data-col="done"]{border-top-color:var(--green)}
+  .col.dragover{outline:2px dashed var(--focus);outline-offset:-4px}
+  .col-head{flex:none;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;padding:12px 14px 10px}
+  .col-head .dot{display:none}
+  .col-head .cnt{margin-left:auto;font-size:14px;font-weight:600;color:var(--ink-soft);line-height:1}
+  .col-note{font-size:12px;font-weight:400;color:var(--ink-soft)}
+  .col-body{flex:1;min-height:0;overflow-y:auto;padding:0 10px 10px}
+  .col-body::-webkit-scrollbar,.week-side .weekstrip::-webkit-scrollbar{width:8px}
+  .col-body::-webkit-scrollbar-thumb,.week-side .weekstrip::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:4px}
+  @keyframes cntPulse{0%{transform:scale(1)}45%{transform:scale(1.25)}100%{transform:scale(1)}}
+  .cnt.pulse{animation:cntPulse .35s;display:inline-block}
+
+  .col-add{margin:0 0 8px}
+  .col-add input{
+    width:100%;font:inherit;font-size:13px;padding:9px 12px;
+    border:1px dashed var(--line-strong);border-radius:var(--r);background:transparent;color:var(--ink);
+  }
+  .col-add input::placeholder{color:var(--ink-faint)}
+  .col-add input:focus{outline:none;border-style:solid;border-color:var(--focus);background:var(--card)}
+  .dropzone{
+    border:1px dashed var(--line-strong);border-radius:var(--r);color:var(--ink-soft);
+    font-size:13px;text-align:center;padding:20px 12px;line-height:1.5;
+  }
+  .dropzone small{display:block;font-size:12px;color:var(--ink-faint)}
+
   .todo-card{
-    background:var(--card);border:1px solid var(--edge);border-left:4px solid var(--line-strong);border-radius:10px;box-shadow:0 1px 2px rgba(30,39,51,.05);
-    padding:11px 13px;margin-bottom:9px;cursor:grab;font-size:13px;position:relative;
-    transition:box-shadow .15s,transform .15s;
+    background:var(--card);border:1px solid var(--edge);border-left:3px solid var(--line-strong);
+    border-radius:var(--r);padding:10px 12px;margin-bottom:8px;cursor:grab;font-size:13px;position:relative;
+    box-shadow:var(--shadow);transition:box-shadow .15s,border-color .15s;
   }
-  .todo-card:hover{box-shadow:var(--shadow-lift);transform:translateY(-1px)}
+  .todo-card:hover{box-shadow:var(--shadow-lift)}
+  .todo-card:active{cursor:grabbing}
+  .todo-card.dragging{opacity:.45}
   .todo-card.pr-high{border-left-color:var(--red)}
   .todo-card.pr-med{border-left-color:var(--amber)}
-  .todo-card.pr-low{border-left-color:var(--line-strong)}
-  /* ป้าย priority แบบเรียบ: สีตัวอักษรอ่อน ๆ ต่างเฉดพอแยกได้ ไม่แย่งสายตา */
-  .tpr{font-size:10px;font-weight:650;border-radius:4px;padding:1.5px 6px;flex:none}
+  .todo-card .t-title{font-size:14px;font-weight:500;line-height:1.45;word-break:break-word;padding-right:4px}
+  .todo-card.done .t-title{text-decoration:line-through;color:var(--ink-soft)}
+  .t-dot{display:none}
+  .pr-legend i.td-high{background:var(--red)} .pr-legend i.td-med{background:var(--amber)} .pr-legend i.td-low{background:var(--line-strong)}
+  .todo-card .t-meta{display:flex;gap:4px 10px;flex-wrap:wrap;align-items:center;margin-top:6px;font-size:12px;color:var(--ink-soft)}
+  .todo-card .t-meta .late{color:var(--red);font-weight:600}
+  .todo-card .t-note{font-size:12px;color:var(--ink-soft);margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .todo-card .t-tools{position:absolute;top:6px;right:6px;display:flex;gap:2px;opacity:0;transition:opacity .12s;background:var(--card);border-radius:6px}
+  .todo-card:hover .t-tools,.todo-card:focus-within .t-tools{opacity:1}
+  .t-tools button{border:none;background:var(--gray-soft);border-radius:5px;min-width:26px;height:24px;padding:0 6px;font-size:12px;color:var(--ink-soft)}
+  .t-tools button:hover{background:var(--line);color:var(--ink)}
+  .t-tools button.dngr:hover{background:var(--red-soft);color:var(--red)}
+  .rep-tag{color:var(--blue);font-weight:500}
+  .link-chip{
+    display:inline-block;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    background:var(--surface);border:1px solid var(--line);color:var(--ink-soft);
+    font-size:12px;border-radius:var(--r-s);padding:0 6px;cursor:pointer;vertical-align:-3px;
+  }
+  .link-chip:hover{border-color:var(--ink-soft);color:var(--ink)}
+  .link-chip::before{content:"↳ ";opacity:.7}
+  .arch-link{
+    display:block;width:100%;border:none;background:none;color:var(--ink-soft);font-size:12px;
+    padding:10px 4px 4px;text-align:center;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line-strong);
+  }
+  .arch-link:hover{color:var(--ink)}
+  .tpr{font-size:12px;font-weight:500;border-radius:var(--r-s);padding:1px 7px;flex:none}
   .tpr-high{background:var(--red-soft);color:var(--red)}
   .tpr-med{background:var(--amber-soft);color:var(--amber)}
   .tpr-low{background:var(--gray-soft);color:var(--ink-soft)}
-  .t-top{display:flex;align-items:flex-start;gap:8px;justify-content:space-between}
-  .todo-card .t-note{font-size:11.5px;color:var(--ink-soft);margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  .todo-card:active{cursor:grabbing}
-  .todo-card.dragging{opacity:.45}
-  .todo-card .t-title{font-weight:550;line-height:1.35;word-break:break-word}
-  .todo-card.done .t-title{text-decoration:line-through;color:var(--ink-soft)}
-  .todo-card .t-meta{display:flex;gap:8px;align-items:center;margin-top:5px;font-size:11px;color:var(--ink-soft)}
-  .todo-card .t-meta .late{color:var(--red);font-weight:650}
-  .todo-card .t-tools{position:absolute;top:6px;right:6px;display:flex;gap:2px;opacity:0;transition:opacity .12s}
-  .todo-card:hover .t-tools{opacity:1}
-  .t-tools button{border:none;background:var(--gray-soft);border-radius:5px;padding:2px 7px;font-size:11px;color:var(--ink-soft)}
-  .t-tools button:hover{background:var(--line);color:var(--ink)}
-  .t-tools button.dngr:hover{background:var(--red-soft);color:var(--red)}
-  .col-note{font-size:10px;font-weight:600;color:var(--ink-soft);background:var(--gray-soft);border-radius:4px;padding:2px 7px}
-  .arch-link{
-    display:block;width:100%;border:none;background:none;color:var(--ink-soft);font-size:11.5px;
-    padding:8px 4px;margin-top:2px;cursor:pointer;border-top:1px dashed var(--line-strong);text-align:center;
-  }
-  .arch-link:hover{color:var(--accent)}
-  .col-add{margin:2px 2px 9px}
-  .col-add input{
-    width:100%;font:inherit;font-size:12.5px;padding:9px 12px;
-    border:1.5px dashed var(--line-strong);border-radius:9px;
-    background:transparent;color:var(--ink);transition:all .15s;
-  }
-  .col-add input::placeholder{color:var(--ink-faint)}
-  .col-add input:focus{outline:none;border-style:solid;border-color:var(--accent);background:var(--card);box-shadow:0 0 0 4px rgba(200,16,46,.08)}
-  .dropzone{
-    border:1.5px dashed var(--line-strong);border-radius:8px;color:var(--ink-faint);
-    font-size:12px;text-align:center;padding:22px 10px;margin-top:2px;
-  }
 
-  /* สรุปสัปดาห์แนวนอน 7 วัน */
-  .weekstrip{display:flex;flex-direction:column;gap:0}
-  .daycol{background:transparent;border:none;border-top:1px solid var(--gray-soft);border-radius:0;padding:7px 2px}
-  .daycol.wkend{background:transparent}
-  .daycol .d-head .d-cnt{font-weight:600;color:var(--ink)}
-  .daycol.today{background:var(--accent-soft);border-radius:9px;border-top-color:transparent;padding:7px 9px;margin:0 -4px}
-  .daycol .d-head{font-size:11px;font-weight:700;display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px}
-  .daycol .d-head .d-date{font-weight:500;color:var(--ink-soft);font-size:10.5px}
-  .daycol.today .d-head{color:var(--accent)}
-  .d-item{display:flex;gap:5px;align-items:flex-start;font-size:10.5px;line-height:1.3;padding:2px;border-radius:4px;cursor:pointer}
-  .d-item:hover{background:var(--card)}
-  .d-tag{flex:none;font-size:9.5px;font-weight:700;border-radius:4px;padding:1px 6px;margin-top:1px;letter-spacing:.02em}
+  /* Week panel */
+  .week-side{display:flex;flex-direction:column;overflow:hidden;padding:16px 16px 10px}
+  .week-side .sec-head{margin-bottom:10px;align-items:flex-start}
+  .week-nav{display:flex;align-items:center;gap:8px;justify-content:space-between;margin-bottom:8px}
+  .week-nav button{width:32px;height:32px;border:1px solid var(--line-strong);background:var(--card);border-radius:var(--r);color:var(--ink-soft)}
+  .week-nav button:hover{border-color:var(--ink-soft);color:var(--ink)}
+  .week-title{text-align:center}
+  .week-title h2{font-size:14px;font-weight:600}
+  .week-title p{font-size:12px;color:var(--ink-faint)}
+  .wk-today{width:100%;border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:5px;font-size:12px;color:var(--ink-soft);margin-bottom:8px}
+  .wk-today:hover{color:var(--ink);border-color:var(--line-strong)}
+  .weekstrip{display:flex;flex-direction:column}
+  .week-side .weekstrip{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;min-width:0;margin:0 -4px;padding:0 4px}
+  .daycol{border-top:1px solid var(--line);padding:8px 2px}
+  .daycol.today{background:var(--brand-soft);border-radius:var(--r);border-top-color:transparent;padding:8px 8px;margin:0 -6px}
+  .daycol.today + .daycol{border-top-color:transparent}
+  .daycol .d-head{font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .daycol.wkend .d-head > span:first-child{color:var(--ink-soft);font-weight:500}
+  .daycol .d-head .d-date{font-weight:400;color:var(--ink-faint);font-size:12px}
+  .daycol .d-head .d-cnt{color:var(--ink-soft)}
+  .today-tag{font-size:11px;font-weight:600;background:var(--brand);color:#fff;border-radius:var(--r-s);padding:0 6px;margin-left:4px;vertical-align:1px}
+  .d-item{display:flex;gap:6px;align-items:baseline;font-size:12px;line-height:1.4;padding:3px 4px;margin:1px -4px 0;border-radius:var(--r-s);cursor:pointer;min-width:0}
+  .d-item:hover{background:var(--surface)}
+  .daycol.today .d-item:hover{background:var(--card)}
+  .d-tag{flex:none;font-size:11px;font-weight:600;border-radius:3px;padding:0 5px}
   .d-tag.g{background:var(--green-soft);color:var(--green)}
   .d-tag.a{background:var(--amber-soft);color:var(--amber)}
   .d-tag.r{background:var(--red-soft);color:var(--red)}
-  .d-item{min-width:0}
   .d-item .tx{flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-  .d-more{font-size:10.5px;color:var(--accent);padding:3px 2px;cursor:pointer}
-  .d-none{font-size:10px;color:var(--ink-faint);padding:1px 2px}
+  .d-more{font-size:12px;color:var(--ink-soft);padding:3px 2px;cursor:pointer}
+  .d-none{display:none}
+  .dash-cols.side-off{grid-template-columns:minmax(0,1fr) 44px}
+  .dash-cols.side-off .week-side{display:none}
+  .week-rail{
+    display:none;flex-direction:column;align-items:center;gap:12px;
+    background:var(--card);border:1px solid var(--line);border-radius:999px;
+    cursor:pointer;padding:16px 0 18px;width:44px;align-self:start;justify-self:center;margin-top:56px;
+  }
+  .dash-cols.side-off .week-rail{display:flex}
+  .week-rail:hover{border-color:var(--line-strong)}
+  .week-rail .rail-arrow{font-size:13px;color:var(--ink-soft);line-height:1}
+  .week-rail .rail-badge{min-width:22px;height:22px;border-radius:999px;background:var(--brand);color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;padding:0 6px}
+  .week-rail span.rail-tx{writing-mode:vertical-rl;font-size:12px;font-weight:500;color:var(--ink-soft)}
 
-  /* ===== Card view ===== */
+  /* To-do table */
+  .todo-tablewrap{flex:1;min-height:0;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:var(--r-l)}
+  .tbl-bar{display:flex;gap:8px;align-items:center;padding:12px;border-bottom:1px solid var(--line);flex-wrap:wrap;position:sticky;left:0;top:0;background:var(--card);z-index:2}
+  .todo-table{width:100%;border-collapse:collapse;min-width:760px}
+  .todo-table thead th{cursor:pointer;user-select:none;top:61px}
+  .todo-table thead th .ar{font-size:9px;margin-left:4px;color:var(--ink)}
+  .todo-table .done-row .td-title{text-decoration:line-through;color:var(--ink-soft)}
+
+  /* Calendar */
+  .todo-cal{flex:1;min-height:0;height:100%;overflow:hidden;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--r-l);padding:14px}
+  .cal-nav{display:flex;align-items:center;justify-content:flex-start;gap:8px;margin-bottom:12px}
+  .cal-nav span{font-weight:600;font-size:16px;min-width:150px;order:-1;margin-right:auto}
+  .cal-nav button{width:32px;height:32px;border:1px solid var(--line-strong);background:var(--card);border-radius:var(--r);color:var(--ink-soft)}
+  .cal-nav button:hover{border-color:var(--ink-soft);color:var(--ink)}
+  .cal-empty{font-size:13px;color:var(--ink-soft);background:var(--surface);border-radius:var(--r);padding:8px 12px;margin-bottom:10px}
+  .cal-grid{flex:1;min-height:0;min-width:0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));grid-auto-rows:max-content;gap:4px;overflow-y:auto;overflow-x:hidden;align-content:start}
+  .cal-dow{font-size:12px;font-weight:500;color:var(--ink-faint);padding:2px 6px 4px}
+  .cal-cell{border:1px solid var(--line);border-radius:6px;padding:4px 6px 6px;min-height:84px;min-width:0;display:flex;flex-direction:column;gap:2px}
+  .cal-cell.dim{opacity:.4}
+  .cal-cell.tday{border-color:var(--brand);box-shadow:inset 0 0 0 1px var(--brand)}
+  .cal-num{font-size:12px;font-weight:500;color:var(--ink-soft)}
+  .cal-cell.tday .cal-num{background:var(--brand);color:#fff;border-radius:999px;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-weight:600}
+  .cal-it{font-size:12px;line-height:1.35;border-radius:3px;padding:1px 5px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;max-width:100%;background:var(--gray-soft)}
+  .cal-it.c-doing{background:var(--blue-soft);color:var(--blue)}
+  .cal-it.c-done{background:var(--green-soft);color:var(--green);text-decoration:line-through}
+  .cal-it.c-late{background:var(--red-soft);color:var(--red)}
+  .cal-cell.has-items{cursor:pointer}
+  .cal-cell.has-items:hover{border-color:var(--line-strong);background:var(--surface)}
+  .cal-dlg{width:min(440px,92vw)}
+  .cal-dlg-body{padding:14px 16px 18px;display:flex;flex-direction:column;gap:6px;max-height:60vh;overflow:auto}
+  .cal-dlg-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:var(--r);cursor:pointer;font-size:14px}
+  .cal-dlg-item:hover{border-color:var(--line-strong);background:var(--surface)}
+  .cal-dlg-item .st{font-size:12px;font-weight:500;border-radius:var(--r-s);padding:1px 7px;flex:none}
+  .st.c-todo{background:var(--gray-soft);color:var(--ink-soft)}
+  .st.c-doing{background:var(--blue-soft);color:var(--blue)}
+  .st.c-done{background:var(--green-soft);color:var(--green)}
+  .st.c-late{background:var(--red-soft);color:var(--red)}
+  .cal-dlg-item .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cal-dlg-item .ow{font-size:12px;color:var(--ink-soft)}
+
+  /* ===== Follow-up page ===== */
+  .fu-head{width:100%;max-width:var(--maxw);margin:0 auto;padding:24px var(--gutter) 0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .fu-head h1{font-size:23px;font-weight:600}
+  .fu-head p{font-size:13px;color:var(--ink-soft)}
+
+  /* status strip (KPI) — one instrument, not five cards */
+  .summary{
+    display:flex;width:calc(100% - 2*var(--gutter));max-width:calc(var(--maxw) - 2*var(--gutter));margin:16px auto 0;
+    background:var(--card);border:1px solid var(--line);border-radius:var(--r-l);overflow:hidden;
+  }
+  .kpi{
+    flex:1 1 0;min-width:120px;border:none;background:transparent;text-align:left;cursor:pointer;
+    padding:12px 18px 14px;position:relative;transition:background .12s;
+  }
+  .kpi + .kpi{border-left:1px solid var(--line)}
+  .kpi:hover{background:var(--surface)}
+  .kpi .num{font-size:28px;font-weight:600;line-height:1.15;color:var(--ink)}
+  .kpi .lbl{font-size:13px;color:var(--ink-soft);margin-top:2px}
+  .kpi.k-prog .num{color:var(--blue)} .kpi.k-done .num{color:var(--green)}
+  .kpi.k-over .num{color:var(--red)}  .kpi.k-high .num{color:var(--amber)}
+  .kpi::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:transparent}
+  .kpi.active{background:var(--surface)}
+  .kpi.active::after{background:var(--ink)}
+  .kpi.k-prog.active::after{background:var(--blue)} .kpi.k-done.active::after{background:var(--green)}
+  .kpi.k-over.active::after{background:var(--red)}  .kpi.k-high.active::after{background:var(--amber)}
+  .kpi.active .lbl{color:var(--ink);font-weight:500}
+
+  .controls-outer{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid transparent}
+  .controls-outer.stuck{border-bottom-color:var(--line)}
+  .controls{padding:16px var(--gutter) 12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;width:100%;max-width:var(--maxw);margin:0 auto}
+  .searchbox{position:relative;flex:1 1 220px;min-width:200px;max-width:360px}
+  .searchbox input{
+    width:100%;height:36px;font:inherit;font-size:13px;padding:0 64px 0 34px;border:1px solid var(--line-strong);
+    border-radius:var(--r);background:var(--card);color:var(--ink);
+  }
+  .searchbox input::-webkit-search-cancel-button{display:none}
+  .searchbox .icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--ink-faint);pointer-events:none;display:flex}
+  .searchbox kbd{position:absolute;right:10px;top:50%;transform:translateY(-50%)}
+  .searchbox .clear{position:absolute;right:4px;top:50%;transform:translateY(-50%);border:none;background:none;color:var(--ink-soft);font-size:13px;width:28px;height:28px;display:none;border-radius:6px}
+  .searchbox .clear:hover{background:var(--gray-soft);color:var(--ink)}
+  .searchbox.has-value .clear{display:block}.searchbox.has-value kbd{display:none}
+  .stat{font-size:13px;color:var(--ink-soft);white-space:nowrap;margin-left:auto}
+  .stat b{color:var(--ink);font-weight:600}
+  .controls .view-toggle{margin-left:4px}
+  .hitbar{display:none;max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter) 10px;width:100%;font-size:13px;color:var(--ink-soft)}
+  body.searching .hitbar{display:block}
+  .hitbar b{color:var(--ink)}
+
+  /* Follow-up cards */
   .cards{
-    padding:10px 32px 56px;display:grid;grid-template-columns:repeat(auto-fill,minmax(345px,1fr));
-    gap:16px;align-content:start;width:100%;max-width:1460px;margin:0 auto;
+    padding:4px var(--gutter) 96px;display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+    gap:16px;align-content:start;width:100%;max-width:var(--maxw);margin:0 auto;
   }
   .action-card{
-    background:var(--card);border:1px solid rgba(30,39,51,.06);border-radius:12px;box-shadow:0 1px 2px rgba(30,39,51,.05);
-    display:flex;flex-direction:column;position:relative;overflow:hidden;
-    transition:box-shadow .15s,transform .15s;
+    background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+    display:flex;flex-direction:column;position:relative;overflow:hidden;transition:border-color .15s,box-shadow .15s;
   }
-  .action-card:hover{box-shadow:var(--shadow-lift)}
-  .action-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--line-strong)}
+  .action-card:hover{border-color:var(--line-strong);box-shadow:var(--shadow-lift)}
+  .action-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:transparent}
   .action-card.pr-P0::before{background:var(--red)}
   .action-card.pr-P1::before{background:var(--amber)}
-  .action-card.pr-P2::before{background:var(--blue)}
-  .action-card.pr-P3::before{background:var(--line-strong)}
-  .card-head{padding:13px 15px 8px;display:flex;gap:8px;align-items:flex-start}
-  .hover-acts{display:flex;gap:2px;opacity:0;transition:opacity .15s;flex:none}
-  .action-card:hover .hover-acts{opacity:1}
-  .card-head .name{font-weight:650;font-size:14.5px;flex:1;cursor:pointer;line-height:1.35}
-  .card-head .name:hover{color:var(--accent)}
-  .card-body{padding:0 15px 11px;display:flex;flex-direction:column;gap:7px;flex:1}
+  .card-head{padding:14px 16px 8px;display:flex;gap:8px;align-items:flex-start}
+  .card-head .name{font-weight:600;font-size:16px;flex:1;cursor:pointer;line-height:1.4;word-break:break-word}
+  .card-head .name:hover{text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line-strong)}
+  .hover-acts{display:flex;gap:2px;opacity:0;transition:opacity .12s;flex:none}
+  @media (hover:hover){
+    .hover-acts{position:absolute;top:10px;right:10px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:2px;box-shadow:var(--shadow)}
+  }
+  .action-card:hover .hover-acts,.action-card:focus-within .hover-acts{opacity:1}
+  .card-body{padding:0 16px 14px;display:flex;flex-direction:column;gap:10px;flex:1}
   .meta{display:flex;flex-wrap:wrap;gap:6px;font-size:12px;color:var(--ink-soft);align-items:center}
-  .chip{background:var(--gray-soft);border-radius:6px;padding:2.5px 8px;font-size:11.5px}
-  .chip.mono{font-family:var(--mono)}
-  .pill{border-radius:999px;font-size:11px;font-weight:650;padding:3px 10px;white-space:nowrap}
-  .p-P0{background:var(--red-soft);color:var(--red)} .p-P1{background:var(--amber-soft);color:var(--amber)} .p-P2{background:var(--blue-soft);color:var(--blue)} .p-P3{background:var(--gray-soft);color:var(--ink-soft)}
+  .chip{background:var(--gray-soft);border-radius:var(--r-s);padding:1px 8px;font-size:12px;color:var(--ink)}
+  .chip.mono{font-family:var(--mono);font-size:12px;background:transparent;border:1px solid var(--line);color:var(--ink-soft)}
+  .pill{display:inline-block;border-radius:999px;font-size:12px;font-weight:500;padding:1px 10px;white-space:nowrap;line-height:1.6}
+  .p-P0{background:var(--red-soft);color:var(--red)} .p-P1{background:var(--amber-soft);color:var(--amber)}
+  .p-P2{background:var(--blue-soft);color:var(--blue)} .p-P3{background:var(--gray-soft);color:var(--ink-soft)}
   .s-Not-started{background:var(--gray-soft);color:var(--ink-soft)} .s-In-progress{background:var(--blue-soft);color:var(--blue)}
-  .s-On-hold{background:var(--amber-soft);color:var(--amber)} .s-Completed{background:var(--green-soft);color:var(--green)} .s-Cancelled{background:var(--red-soft);color:var(--red)}
-  .dates{font-size:12px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
-  .dates.overdue{color:var(--red);font-weight:650}
-  .note-line{font-size:12.5px;color:var(--ink-soft);border-left:3px solid var(--line);padding-left:9px}
-
-  /* Activity description box */
+  .s-On-hold{background:var(--amber-soft);color:var(--amber)} .s-Completed{background:var(--green-soft);color:var(--green)}
+  .s-Cancelled{background:var(--red-soft);color:var(--red)}
+  .dates{font-size:13px;color:var(--ink-soft)}
+  .dates.overdue{color:var(--red);font-weight:600}
+  .note-line{font-size:13px;color:var(--ink-soft);border-left:2px solid var(--line-strong);padding-left:10px}
   .activity-box{
-    background:var(--surface);border:1px solid var(--line);border-radius:8px;
-    padding:10px 12px;font-size:12.8px;line-height:1.55;color:var(--ink);
+    background:var(--surface);border:1px solid var(--line);border-radius:6px;
+    padding:10px 12px;font-size:13px;line-height:1.6;color:var(--ink);
     white-space:pre-line;word-break:break-word;
-    display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden;
-    cursor:pointer;transition:background .15s,border-color .15s;
+    display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer;
   }
-  .activity-box:hover{border-color:var(--line-strong);background:#f1f5f9}
+  .activity-box:hover{border-color:var(--line-strong)}
   .activity-box.expanded{-webkit-line-clamp:unset;display:block}
-  body.searching .activity-box.has-hit{-webkit-line-clamp:unset;display:block;border-color:#eab308;background:#fffdf2}
-  .activity-box .ab-label{
-    display:block;font-size:10.5px;font-weight:650;color:var(--ink-soft);
-    text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;
-  }
-  mark{
-    background:var(--mark-bg);color:var(--mark-ink);border-radius:3px;padding:0 2px;
-    box-shadow:0 0 0 1px #f4cf58 inset;font-weight:600;
-  }
-
-  /* progress bar */
-  .progress{display:flex;align-items:center;gap:8px}
-  .progress .bar{flex:1;height:6px;border-radius:999px;background:var(--gray-soft);overflow:hidden}
+  body.searching .activity-box.has-hit{-webkit-line-clamp:unset;display:block;border-color:#e0b100}
+  .activity-box .ab-label{display:none}
+  mark{background:var(--mark-bg);color:var(--mark-ink);border-radius:2px;padding:0 1px}
+  .progress{display:flex;align-items:center;gap:10px}
+  .progress .bar{flex:1;height:4px;border-radius:999px;background:var(--gray-soft);overflow:hidden}
   .progress .bar i{display:block;height:100%;background:var(--green);border-radius:999px;transition:width .3s}
-  .progress .pct{font-size:11px;color:var(--ink-soft);font-variant-numeric:tabular-nums;min-width:56px;text-align:right}
-
-  /* stations */
-  .subs{border-top:1px solid var(--line);margin-top:4px}
-  .subs-head{font-size:10.5px;font-weight:650;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;padding:8px 15px 2px}
-  .sub-item{display:flex;align-items:center;gap:8px;padding:7px 15px;border-bottom:1px solid var(--gray-soft);font-size:12.5px}
+  .progress .pct{font-size:12px;color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .subs{border-top:1px solid var(--line)}
+  .subs-head{font-size:12px;font-weight:500;color:var(--ink-soft);padding:10px 16px 2px}
+  .sub-item{display:flex;align-items:center;gap:8px;padding:7px 16px;border-bottom:1px solid var(--gray-soft);font-size:13px}
   .sub-item:last-child{border-bottom:none}
   .sub-item:hover{background:var(--surface)}
-  .sub-item .s-name{flex:1;cursor:pointer}
-  .sub-item .s-name:hover{color:var(--accent)}
-  .sub-item .who{color:var(--ink-soft);font-size:11.5px}
+  .sub-item .s-name{flex:1;cursor:pointer;min-width:0}
+  .sub-item .who{color:var(--ink-soft);font-size:12px}
   .sub-dot{width:8px;height:8px;border-radius:50%;flex:none}
-  .cat-chip{
-    font-size:10px;font-weight:700;letter-spacing:.04em;border-radius:5px;padding:2px 7px;
-    background:var(--accent-soft);color:var(--accent);flex:none;text-transform:uppercase;
-  }
-  .d-Not-started{background:#b6bcc4}.d-In-progress{background:var(--blue)}.d-On-hold{background:var(--amber)}.d-Completed{background:var(--green)}.d-Cancelled{background:var(--red)}
-  .icon-btn{border:none;background:none;padding:5px 9px;border-radius:6px;font-size:12.5px;color:var(--ink-soft);transition:background .12s}
-  .icon-btn:hover{background:var(--gray-soft);color:var(--ink)}
-  .icon-btn.danger:hover{background:var(--red-soft);color:var(--red)}
+  .cat-chip{font-size:11px;font-weight:600;letter-spacing:.02em;border-radius:3px;padding:0 6px;flex:none}
+  .d-Not-started{background:var(--line-strong)}.d-In-progress{background:var(--blue)}.d-On-hold{background:var(--amber)}.d-Completed{background:var(--green)}.d-Cancelled{background:var(--red)}
+  .muted{color:var(--ink-faint)}
 
-  /* ===== Table view ===== */
-  .table-wrap{padding:10px 32px 56px;display:none;width:100%;max-width:1460px;margin:0 auto}
-  .sheet{background:var(--card);border:1px solid var(--edge);overflow:auto;border-radius:12px;box-shadow:var(--shadow)}
+  /* Tables (shared) */
+  .table-wrap{padding:4px var(--gutter) 96px;display:none;width:100%;max-width:var(--maxw);margin:0 auto}
+  .sheet{background:var(--card);border:1px solid var(--line);overflow:auto;border-radius:var(--r-l);max-height:calc(100vh - 140px)}
   table{width:100%;border-collapse:collapse;min-width:1120px}
-  thead th{text-align:left;font-size:11px;font-weight:650;text-transform:uppercase;letter-spacing:.06em;color:#fff;background:var(--navy-2);padding:10px;white-space:nowrap;position:sticky;top:0}
-  tbody td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:middle;font-size:13px}
-  tr.main-row td:first-child{border-left:3px solid var(--navy-2)}
-  tr.sub-row{background:var(--surface)}
-  tr.sub-row td.tname{padding-left:14px}
-  tbody tr:hover{background:#faf4f5}
+  thead th{
+    text-align:left;font-size:12px;font-weight:600;color:var(--ink-soft);background:var(--surface);
+    padding:9px 12px;white-space:nowrap;position:sticky;top:0;z-index:1;border-bottom:1px solid var(--line-strong);
+  }
+  tbody td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;font-size:13px}
   tbody tr{cursor:pointer}
-  td.tssid{font-family:var(--mono);font-size:12px}
+  tbody tr:hover{background:var(--surface)}
+  tr.main-row td{border-top:1px solid var(--line-strong)}
+  tr.main-row td.tname{font-weight:500}
+  tr.sub-row td{border-bottom-color:var(--gray-soft)}
+  tr.sub-row td.tname{padding-left:24px}
+  td.tssid{font-family:var(--mono);font-size:12px;color:var(--ink-soft)}
   td.tact{max-width:340px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   body.searching td.tact{white-space:normal;max-width:420px}
+  td.empty-cell{text-align:center;color:var(--ink-soft);padding:36px 12px;cursor:default}
+  tr:has(td.empty-cell):hover{background:transparent}
 
-  .empty{padding:60px 20px;text-align:center;color:var(--ink-soft)}
-  .empty strong{display:block;color:var(--ink);margin-bottom:4px;font-size:15px}
+  /* Empty state */
+  .empty{padding:56px 20px 72px;text-align:center;color:var(--ink-soft);max-width:460px;margin:0 auto}
+  .empty strong{display:block;color:var(--ink);margin-bottom:4px;font-size:16px;font-weight:600}
+  .empty-acts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
 
-  /* ===== Edit modal ===== */
-  dialog{
-    border:none;border-radius:14px;box-shadow:0 18px 50px rgba(15,33,55,.32);padding:0;
-    width:min(580px,94vw);margin:auto;position:fixed;inset:0;max-height:92vh;overflow:auto;
+  .fab{
+    position:fixed;right:calc(28px + env(safe-area-inset-right));bottom:calc(28px + env(safe-area-inset-bottom));z-index:60;
+    border:none;border-radius:999px;padding:13px 22px;background:var(--brand);color:#fff;
+    font-size:14px;font-weight:600;box-shadow:0 6px 18px rgba(165,13,36,.32);transition:background .15s;
   }
-  dialog::backdrop{background:rgba(15,33,55,.5);backdrop-filter:blur(2px)}
-  .m-head{background:color-mix(in srgb,var(--card) 94%,transparent);backdrop-filter:blur(8px);color:var(--ink);padding:16px 20px 12px;font-size:15px;font-weight:600;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;border-bottom:1px solid var(--line)}
-  .m-head button{background:none;border:none;color:var(--ink-faint);font-size:15px;padding:4px 9px;border-radius:7px;line-height:1}
-  .m-head button:hover{background:var(--red-soft);color:var(--red)}
-  .m-body{padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:13px}
+  .fab:hover{background:var(--brand-ink)}
+
+  /* ===== Dialogs ===== */
+  dialog{
+    border:1px solid var(--line);border-radius:var(--r-l);box-shadow:var(--shadow-dlg);padding:0;
+    width:min(580px,94vw);margin:auto;position:fixed;inset:0;max-height:92vh;overflow:auto;
+    background:var(--card);color:var(--ink);
+  }
+  dialog[open]{animation:dlgPop .2s cubic-bezier(.2,.9,.3,1)}
+  @keyframes dlgPop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  dialog::backdrop{background:rgba(20,24,28,.48)}
+  .m-head{background:var(--card);color:var(--ink);padding:18px 20px 12px;font-size:16px;font-weight:600;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;position:sticky;top:0;z-index:2;border-bottom:1px solid var(--line)}
+  .m-head > span{line-height:1.4;word-break:break-word}
+  .m-head button{background:none;border:none;color:var(--ink-faint);font-size:14px;width:32px;height:32px;border-radius:var(--r);flex:none;margin:-4px -8px 0 0}
+  .m-head button:hover{background:var(--gray-soft);color:var(--ink)}
+  .m-body{padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
   .m-body .full{grid-column:1/-1}
-  .field label{display:block;font-size:11.5px;font-weight:600;color:var(--ink-soft);letter-spacing:.02em;margin-bottom:4px}
-  .field input,.field select,.field textarea{width:100%;font:inherit;padding:9px;border:1px solid var(--line-strong);border-radius:8px;background:var(--card)}
-  .field textarea{resize:vertical;min-height:60px}
+  .m-sec{font-size:14px;font-weight:600;color:var(--ink)}
+  .m-help{font-size:13px;color:var(--ink-soft);line-height:1.6}
+  .m-help ol{padding-left:18px}
+  .m-err{grid-column:1/-1;font-size:13px;color:var(--red);background:var(--red-soft);border-radius:var(--r);padding:8px 12px}
+  .field label{display:block;font-size:13px;font-weight:500;color:var(--ink-soft);margin-bottom:5px}
+  .field input,.field select,.field textarea{width:100%;font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--line-strong);border-radius:var(--r);background:var(--card);color:var(--ink)}
+  .field input[type=checkbox]{width:auto}
+  .field textarea{resize:vertical;min-height:64px;line-height:1.55}
+  .field.invalid input{border-color:var(--red)}
+  .field .f-err{display:none;font-size:12px;color:var(--red);margin-top:4px}
+  .field.invalid .f-err{display:block}
   .field label.chk-row{
     display:flex;align-items:center;gap:9px;height:38px;padding:0 12px;
-    border:1px solid var(--line-strong);border-radius:8px;background:var(--card);
-    font-size:13px;color:var(--ink);cursor:pointer;margin:0;font-weight:500;letter-spacing:0;
+    border:1px solid var(--line-strong);border-radius:var(--r);background:var(--card);
+    font-size:14px;color:var(--ink);cursor:pointer;margin:0;font-weight:400;
   }
-  .field label.chk-row input{width:15px;height:15px;margin:0;flex:none;accent-color:var(--accent);cursor:pointer}
-  .m-foot{padding:13px 20px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-end;background:var(--surface);position:sticky;bottom:0}
-  .m-foot button{padding:9px 18px;border-radius:8px;border:1px solid var(--line-strong);background:var(--card);color:var(--ink)}
+  .field label.chk-row input{width:16px;height:16px;margin:0;flex:none;accent-color:var(--brand);cursor:pointer}
+  .m-foot{padding:12px 20px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-end;background:var(--card);position:sticky;bottom:0}
+  .m-foot button{height:36px;padding:0 16px;border-radius:var(--r);border:1px solid var(--line-strong);background:var(--card);color:var(--ink);font-size:13px}
   .m-foot button:hover{border-color:var(--ink-soft)}
-  .m-foot .save{background:var(--navy);color:#fff;border-color:var(--navy);font-weight:650}
-  .m-foot .save:hover{background:var(--navy-2)}
+  .m-foot .save{background:var(--brand);color:#fff;border-color:var(--brand);font-weight:600}
+  .m-foot .save:hover{background:var(--brand-ink);border-color:var(--brand-ink)}
+  .m-foot .danger-link{margin-right:auto;border-color:transparent;color:var(--red);padding:0 10px}
+  .m-foot .danger-link:hover{background:var(--red-soft);border-color:transparent}
 
+  /* view dialog */
+  .view-body{padding:16px 20px 20px;display:flex;flex-direction:column;gap:12px;max-height:64vh;overflow:auto}
+  .v-row{display:grid;grid-template-columns:112px 1fr;gap:12px;font-size:14px;align-items:start}
+  .v-row .v-k{font-size:13px;color:var(--ink-soft);padding-top:1px}
+  .v-row .v-v{color:var(--ink);word-break:break-word}
+  .v-v.pre{white-space:pre-line;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px;font-size:13px;line-height:1.6}
+  .v-v .pill{margin-right:6px}
+  .v-v .mono{font-family:var(--mono);font-size:13px}
+  .prog-add{display:flex;gap:8px;margin-top:4px;padding-top:14px;border-top:1px solid var(--line)}
+  .prog-add input{flex:1;font:inherit;font-size:13px;height:36px;padding:0 12px;border:1px solid var(--line-strong);border-radius:var(--r);background:var(--card);color:var(--ink)}
+  .prog-add button{height:36px;border:1px solid var(--line-strong);background:var(--card);color:var(--ink);border-radius:var(--r);padding:0 16px;font-size:13px}
+  .prog-add button:hover{border-color:var(--ink-soft)}
+
+  /* owner picker */
+  .owner-pick{display:flex;flex-direction:column;gap:8px}
+  .op-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .op-chip{
+    border:1px solid var(--line-strong);background:var(--card);color:var(--ink-soft);
+    border-radius:999px;padding:4px 12px;font-size:13px;cursor:pointer;user-select:none;transition:background .12s,border-color .12s;
+  }
+  .op-chip:hover{border-color:var(--ink-soft);color:var(--ink)}
+  .op-chip.on{background:var(--graphite);border-color:var(--graphite);color:#fff}
+  body.dark .op-chip.on{background:#e6e9ec;border-color:#e6e9ec;color:#16191d}
+  .op-chip.on::before{content:"✓ "}
+  .op-add{display:flex;gap:6px}
+  .op-add input{flex:1;font:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--line-strong);border-radius:var(--r);background:var(--card);color:var(--ink)}
+  .op-add button{border:1px solid var(--line-strong);background:var(--card);color:var(--ink);border-radius:var(--r);padding:6px 14px;font-size:13px}
+  .op-add button:hover{border-color:var(--ink-soft)}
+
+  /* ===== Toast ===== */
   .toast{
-    position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(8px);background:var(--navy);color:#fff;
-    padding:10px 20px;border-radius:9px;font-size:13px;box-shadow:var(--shadow-lift);opacity:0;
-    transition:opacity .25s,transform .25s;pointer-events:none;z-index:60;
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(8px);
+    background:var(--graphite);color:#fff;max-width:min(520px,calc(100vw - 32px));
+    padding:10px 16px;border-radius:var(--r);font-size:13px;box-shadow:var(--shadow-lift);opacity:0;
+    transition:opacity .2s,transform .2s;pointer-events:none;z-index:300;display:flex;align-items:flex-start;gap:12px;
   }
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .toast.err{background:var(--card);color:var(--ink);border:1px solid var(--line);border-left:4px solid var(--red);white-space:pre-line;line-height:1.55;padding:12px 14px}
+  .toast.err strong{display:block;color:var(--red);font-weight:600;margin-bottom:2px}
+  .toast-act{flex:none;background:none;border:1px solid rgba(255,255,255,.4);color:inherit;border-radius:6px;padding:2px 12px;font-size:13px;pointer-events:auto}
+  .toast.err .toast-act{border:none;color:var(--ink-soft);padding:0 4px;font-size:14px}
+  body.dark .toast:not(.err){background:#e6e9ec;color:#16191d}
+  body.dark .toast:not(.err) .toast-act{border-color:rgba(0,0,0,.3)}
 
-
-  /* ================= RESPONSIVE: แท็บเล็ต ================= */
+  /* ================= RESPONSIVE: tablet ================= */
+  @media (max-width:1100px){
+    .dash-cols{grid-template-columns:minmax(0,1fr) 260px}
+  }
   @media (max-width:980px){
+    :root{--gutter:20px}
     .dash-cols{grid-template-columns:1fr;height:auto}
     .board{grid-template-columns:1fr}
-    .col{height:auto;min-height:120px;max-height:52vh}
-    .week-side{max-height:none;height:auto}
+    .col{height:auto;min-height:120px;max-height:60vh}
+    .week-side{height:auto}
     .week-rail{display:none !important}
     .dash-cols.side-off .week-side{display:flex}
+    #sideToggle{display:none}
     .todo-cal,.todo-tablewrap{height:auto;min-height:420px}
-    .cards{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+    .summary{flex-wrap:wrap}
+    .kpi{flex:1 1 30%}
+    .kpi:nth-child(4){border-left:none}
+    .kpi:nth-child(n+4){border-top:1px solid var(--line)}
   }
 
-  /* ================= RESPONSIVE: มือถือ ================= */
+  /* ================= RESPONSIVE: mobile ================= */
   @media (max-width:640px){
-    /* --- หัวเว็บ: แถวเดียว กระชับ --- */
-    .masthead{
-      padding:calc(8px + env(safe-area-inset-top)) 12px 8px;
-      gap:8px;flex-wrap:nowrap;overflow:visible;
-    }
-    /* เมนูบนมือถือ: ลอยเต็มความกว้าง ไม่โดนขอบจอตัด */
-    .menu{
-      position:fixed;top:auto;right:10px;left:10px;width:auto;min-width:0;
-      max-height:70vh;overflow:auto;z-index:120;
-    }
-    .menu button{padding:13px 14px;font-size:14px}
-    .menu-status{font-size:11.5px;padding:9px 14px 6px}
-    .user-menu{left:auto;right:10px;width:230px}
-    .masthead .title{font-size:0;flex:none}
-    .masthead .title::after{content:"TE";font-size:15px;font-weight:700;letter-spacing:.04em}
-    .topnav{margin-left:2px;flex:none}
-    .topnav button{padding:7px 12px;font-size:12.5px}
+    :root{--gutter:16px}
+    body{font-size:14px}
+    .masthead{gap:6px;min-height:calc(52px + env(safe-area-inset-top))}
+    .masthead .title{display:none}
+    .topnav{margin-left:4px;gap:0}
+    .topnav button{padding:0 8px;font-size:14px}
+    .topnav button.active::after{left:8px;right:8px}
+    .brand-mark{width:26px;height:26px;font-size:11px}
     .mh-divider{display:none}
-    .theme-btn{width:32px;height:32px;font-size:14px;margin-left:auto}
-    .who-chip{padding:6px 10px;font-size:11.5px;max-width:96px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .theme-btn{width:36px;height:36px}
+    .who-chip{max-width:84px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:6px 10px !important;font-size:12px !important}
     #followTools{gap:6px !important}
-    #followTools .menu-wrap > button{padding:7px 11px;font-size:12px}
+    #btnData{padding:7px 10px;font-size:12px}
+    .menu{position:fixed;top:calc(56px + env(safe-area-inset-top));right:12px;left:12px;width:auto;min-width:0;max-height:70vh;overflow:auto;z-index:120}
+    .menu button{padding:12px;font-size:14px}
+    .user-menu{left:auto;width:240px}
 
-    /* --- แถบแจ้งเตือน --- */
-    .notice{padding:8px 12px;font-size:11.5px;gap:8px;text-align:center}
-    .notice button{padding:5px 10px;font-size:11.5px}
+    .notice{padding:8px var(--gutter);font-size:12px;gap:8px}
 
-    /* --- ระยะขอบหน้า --- */
-    .dash{padding:14px 12px calc(28px + env(safe-area-inset-bottom))}
-    .summary{padding:14px 12px 0;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
-    .summary::-webkit-scrollbar{display:none}
-    .controls{padding:10px 12px 4px;gap:7px}
-    .cards,.table-wrap{padding:8px 12px calc(80px + env(safe-area-inset-bottom))}
-    .hitbar{padding:0 12px}
-
-    /* --- KPI: เลื่อนแนวนอนได้ ไม่บีบจนอ่านไม่ออก --- */
-    .kpi{min-width:112px;flex:0 0 auto;padding:9px 14px}
-    .kpi .num{font-size:20px}
-    .kpi .lbl{font-size:10.5px}
-
-    /* --- ตัวกรอง: เต็มความกว้าง อ่านง่าย --- */
-    .searchbox{flex:1 1 100%;max-width:none;min-width:0}
-    .controls select{flex:1 1 46%;max-width:none;min-width:0;height:38px;font-size:12.5px}
-    .controls .view-toggle{flex:1 1 100%;height:38px;display:flex}
-    .controls .view-toggle button{flex:1;font-size:12.5px}
-    .count{width:100%;text-align:right;font-size:11.5px}
-
-    /* --- To-do toolbar --- */
-    .sec-head{gap:9px;margin-bottom:11px}
-    .sec-head h3{font-size:16px}
+    .dash{padding:16px var(--gutter) calc(28px + env(safe-area-inset-bottom))}
+    .sec-head{margin-bottom:12px}
+    .sec-head h3{font-size:19px}
     .pr-legend{display:none}
-    .sec-tools{width:100%;gap:7px}
-    .sec-tools .sort-sel{flex:1 1 46%;height:38px;min-width:0}
-    .sec-tools .view-toggle{flex:1 1 100%;height:38px}
+    .sec-tools{width:100%;gap:8px}
+    .sec-tools .sort-sel{flex:1 1 calc(50% - 4px);height:40px;min-width:0;max-width:none}
+    .sec-tools .view-toggle{flex:1 1 100%;height:40px}
     .sec-tools .view-toggle button{flex:1}
-    .sec-tools .add-btn{flex:1 1 100%;padding:11px;font-size:14px}
-    #scopeTg{flex:1 1 100%;height:38px}
-    #scopeTg button{flex:1}
+    .sec-tools .add-btn{flex:1 1 100%;height:44px;font-size:14px}
 
-    /* --- บอร์ด: คอลัมน์เรียงลง แตะสะดวก --- */
     .board{gap:12px}
-    .col{max-height:none;padding:11px 10px}
-    .col-head{font-size:14px;padding-bottom:8px}
+    .col{max-height:none}
     .col-body{overflow:visible}
-    .todo-card{padding:13px;margin-bottom:9px;font-size:13.5px}
-    .t-title{font-size:14px}
-    .t-tools{opacity:1}
-    .t-tools button{width:34px;height:34px;font-size:15px}
-    .col-add input{padding:12px;font-size:13.5px}
+    .todo-card{padding:12px}
+    .todo-card .t-tools{position:static;opacity:1;justify-content:flex-end;gap:6px;margin-top:8px;background:none}
+    .t-tools button{min-width:40px;height:36px;font-size:14px}
+    .col-add input{padding:12px;font-size:16px}
 
-    /* --- สรุปสัปดาห์: อยู่ใต้บอร์ด --- */
-    .week-side{margin-top:4px}
-    .week-side .weekstrip{max-height:none;overflow:visible}
+    .week-side .weekstrip{overflow:visible}
     .d-item{padding:7px 4px}
-    #copyWeek,#sideToggle{padding:6px 10px;font-size:11.5px}
-    #sideToggle{display:none}
 
-    /* --- ปฏิทิน: ตัวเลข + จุดสี แตะช่องเพื่อดูรายการ --- */
     .todo-cal{padding:10px 8px;min-height:0}
-    .cal-nav span{font-size:13px;min-width:auto}
-    .cal-nav button{padding:6px 14px}
+    .cal-nav span{font-size:15px;min-width:0}
     .cal-grid{gap:3px}
     .cal-cell{min-height:52px;padding:3px;gap:3px;align-items:center}
-    .cal-dow{font-size:9.5px}
-    .cal-num{font-size:11px}
-    .cal-cell.tday .cal-num{width:22px;height:22px}
-    .cal-it{
-      width:7px;height:7px;padding:0;border-radius:50%;font-size:0;
-      display:inline-block;margin:0 1px;overflow:hidden;
-    }
-    .cal-it.c-more{display:none}
-    .cal-it{pointer-events:none}
-    .cal-cell{flex-direction:column;cursor:pointer}
-    .cal-dots{display:flex;flex-wrap:wrap;justify-content:center;gap:2px}
+    .cal-dow{font-size:11px;text-align:center;padding:2px 0}
+    .cal-it{width:7px;height:7px;padding:0;border-radius:50%;font-size:0;display:inline-block;margin:0 1px;pointer-events:none}
+    .cal-it.c-todo{background:var(--ink-faint)} .cal-it.c-doing{background:var(--blue)}
+    .cal-it.c-done{background:var(--green)} .cal-it.c-late{background:var(--red)}
+    .cal-cell{flex-direction:row;flex-wrap:wrap;justify-content:center;align-content:flex-start;cursor:pointer}
+    .cal-num{flex:1 1 100%;text-align:center}
+    .cal-cell.tday .cal-num{flex:none;margin-bottom:2px}
 
-    /* --- ตาราง: เลื่อนแนวนอนลื่น --- */
-    .sheet,.todo-tablewrap{-webkit-overflow-scrolling:touch}
-    .todo-tablewrap{min-height:0}
-    .tbl-bar{padding:9px}
-    .tbl-bar .fast-add{flex:1 1 100%;min-width:0}
-    .tbl-bar .sort-sel{flex:1 1 46%}
-    .tbl-bar .tool-btn{flex:1 1 100%;margin-left:0 !important;height:38px}
+    .tbl-bar{padding:10px}
+    .tbl-bar .fast-add{flex:1 1 100%;min-width:0;height:40px;font-size:16px}
+    .tbl-bar .sort-sel{flex:1 1 calc(50% - 4px);max-width:none}
+    .tbl-bar .tool-btn{flex:1 1 100%;margin-left:0 !important;height:40px}
+    .todo-table thead th{top:0;position:static}
     th,td{font-size:12px;padding:8px 9px}
 
-    /* --- การ์ด Follow-up --- */
+    .fu-head{padding-top:16px}
+    .fu-head h1{font-size:19px}
+    .summary{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    .summary::-webkit-scrollbar{display:none}
+    .kpi{flex:0 0 auto;min-width:108px;padding:10px 14px 12px}
+    .kpi:nth-child(4){border-left:1px solid var(--line)}
+    .kpi:nth-child(n+4){border-top:none}
+    .kpi .num{font-size:23px}
+    .kpi .lbl{font-size:12px;white-space:nowrap}
+    .controls{padding:12px var(--gutter) 10px;gap:8px}
+    .searchbox{flex:1 1 100%;max-width:none;min-width:0}
+    .searchbox input{height:40px;font-size:16px}
+    .searchbox kbd{display:none}
+    .controls select{flex:1 1 calc(50% - 4px);max-width:none;min-width:0;height:40px}
+    .stat{margin-left:0}
+    .controls .view-toggle{margin-left:auto;height:36px}
+    .cards,.table-wrap{padding:4px var(--gutter) calc(96px + env(safe-area-inset-bottom))}
     .cards{grid-template-columns:1fr;gap:12px}
-    .card-head{padding:12px 13px 8px}
-    .action-card .name{font-size:14px}
+    .card-head{padding:12px 14px 8px}
+    .card-body{padding:0 14px 12px}
+    .card-head .name{font-size:15px}
+    .hover-acts{opacity:1}
+    .sub-item{padding:9px 14px}
+    .fab{right:calc(16px + env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom));padding:14px 20px}
 
-    /* --- ปุ่มลอย --- */
-    .fab{
-      right:calc(16px + env(safe-area-inset-right));
-      bottom:calc(16px + env(safe-area-inset-bottom));
-      padding:14px 20px;font-size:14px;
-    }
-
-    /* --- Dialog: แผ่นเต็มจอแบบ bottom sheet --- */
+    /* dialogs become bottom sheets */
     dialog:not([open]){display:none !important}
     dialog[open]{
-      width:100vw;max-width:100vw;
-      height:auto;max-height:86vh;
-      margin:auto 0 0;border-radius:18px 18px 0 0;
+      width:100vw;max-width:100vw;height:auto;max-height:88vh;
+      margin:auto 0 0;border-radius:var(--r-l) var(--r-l) 0 0;border:none;
       display:flex;flex-direction:column;overflow:hidden;
-      animation:sheetUp .26s cubic-bezier(.2,.9,.3,1) !important;
-    }
-    .m-head{position:static;flex:none;background:var(--card)}
-    .m-body,.view-body,.cal-dlg-body{
-      flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;
+      animation:sheetUp .24s cubic-bezier(.2,.9,.3,1) !important;
     }
     @keyframes sheetUp{from{transform:translateY(40px);opacity:.6}to{transform:none;opacity:1}}
-    .m-head{padding:15px 16px 12px;font-size:15px}
-    .m-head button{font-size:18px;padding:6px 10px}
-    .m-body{padding:13px 16px 16px;grid-template-columns:1fr 1fr;gap:10px 10px}
+    .m-head{position:static;flex:none;padding:16px 16px 12px}
+    .m-body,.view-body,.cal-dlg-body{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+    .m-body{padding:14px 16px 16px;gap:12px 10px}
     .m-body .field{min-width:0}
-    .m-body .full{grid-column:1/-1}
-    .field label{font-size:11px;margin-bottom:3px}
-    .m-foot{
-      padding:11px 16px calc(11px + env(safe-area-inset-bottom));
-      position:static;flex:none;background:var(--card);border-top:1px solid var(--line);
-      flex-wrap:wrap;gap:8px;
-    }
-    .m-foot button{flex:1;min-width:44%;padding:11px;font-size:13.5px}
-    #viewMakeTodo{flex:1 1 100%;margin-right:0 !important}
-    .field input,.field select,.field textarea{padding:10px 11px;font-size:16px;border-radius:9px}
-    .field textarea{min-height:64px}
-    .m-body #eActivity{min-height:88px !important}
-    .field label.chk-row{height:42px;font-size:13.5px}
+    .m-foot{padding:10px 16px calc(10px + env(safe-area-inset-bottom));position:static;flex:none;flex-wrap:wrap}
+    .m-foot button{flex:1;min-width:40%;height:44px;font-size:14px}
+    .m-foot .danger-link,#viewMakeTodo{flex:1 1 100%;margin-right:0 !important;order:3}
+    .field input,.field select,.field textarea{padding:10px 11px;font-size:16px}
+    .m-body #eActivity{min-height:96px !important}
+    .field label.chk-row{height:44px}
     .view-body{padding:14px 16px;max-height:none}
-    .v-row{grid-template-columns:1fr;gap:3px}
+    .v-row{grid-template-columns:1fr;gap:2px}
     .prog-add{flex-wrap:wrap}
-    .prog-add input{flex:1 1 100%;padding:12px;font-size:15px}
-    .prog-add button{flex:1 1 100%;padding:11px}
-    .op-chip{padding:7px 12px;font-size:12.5px}
+    .prog-add input{flex:1 1 100%;height:44px;font-size:16px}
+    .prog-add button{flex:1 1 100%;height:44px}
+    .op-chip{padding:7px 12px}
     .op-add input{padding:9px 11px;font-size:16px}
-    .owner-pick{gap:7px}
     .cal-dlg{width:100vw}
     .cal-dlg-item{padding:12px}
 
-    /* --- เมนู --- */
-    .menu{min-width:210px}
-    .user-menu{min-width:210px}
-
-    /* --- Login --- */
-    .lg-card{width:min(360px,92vw);padding:32px 24px 26px}
-    .lg-mark{width:56px;height:56px;font-size:21px}
-    .lg-title{font-size:20px}
-    .lg-field input{font-size:16px;padding:14px 13px}
-
-    /* --- toast --- */
-    .toast{width:calc(100vw - 24px);text-align:center;font-size:13px;bottom:calc(16px + env(safe-area-inset-bottom))}
+    .lg-card{padding:28px 22px 22px}
+    .toast{bottom:calc(16px + env(safe-area-inset-bottom));width:calc(100vw - 24px)}
   }
-
-  /* จอเล็กมาก */
   @media (max-width:380px){
-    .topnav button{padding:6px 9px;font-size:12px}
+    .topnav button{padding:0 8px;font-size:13px}
     .who-chip{max-width:72px}
-    .kpi{min-width:100px}
+    .brand-mark{width:26px;height:26px}
   }
-
 </style>
 </head>
 <body>
 
 <!-- ================= LOGIN ================= -->
 <div id="loginPage" class="login">
-  <div class="lg-bg"><span></span><span></span><span></span></div>
-  <div class="lg-card">
+  <div class="lg-card" role="form" aria-labelledby="lgTitle">
     <div class="lg-mark">TE</div>
-    <h1 class="lg-title">TE Workspace</h1>
-    <p class="lg-sub">To-do &amp; Follow-up · Demo</p>
+    <h1 class="lg-title" id="lgTitle">TE Workspace</h1>
+    <p class="lg-sub">งาน To-do และ Follow-up ของทีม TE</p>
     <div class="lg-field">
-      <input id="lgId" placeholder=" " autocomplete="off" spellcheck="false">
       <label for="lgId">รหัสพนักงาน</label>
+      <input id="lgId" placeholder="เช่น DEMO01" autocomplete="off" spellcheck="false" aria-describedby="lgErr">
     </div>
-    <div class="lg-err" id="lgErr">ไม่พบรหัสพนักงานนี้ — ลองตรวจอีกครั้ง</div>
+    <div class="lg-err" id="lgErr" role="alert">ไม่พบรหัสพนักงานนี้ ตรวจตัวอักษรและตัวเลขอีกครั้ง</div>
     <button class="lg-btn" id="lgGo">เข้าใช้งาน</button>
-    <p class="lg-hint">เดโม่: ใช้รหัส DEMO01 – DEMO08</p>
+    <p class="lg-hint">บัญชีสาธิต: ใช้รหัส <code>DEMO01</code> ถึง <code>DEMO08</code></p>
   </div>
 </div>
 
+<div class="syncbar" aria-hidden="true"></div>
 <header class="masthead">
-  <div>
-    <div class="title">TE Workspace</div>
-    <div class="subtitle">ติดตามงาน action พร้อมสถานีที่พบปัญหา ผู้รับผิดชอบ และกำหนดเวลา</div>
-  </div>
-  <nav class="topnav">
+  <div class="brand"><span class="brand-mark" aria-hidden="true">TE</span><div class="title">TE Workspace</div></div>
+  <nav class="topnav" aria-label="หน้า">
     <button id="navDash" class="active">To-do</button>
     <button id="navFollow">Follow-up</button>
   </nav>
   <div class="spacer"></div>
   <span id="followTools" style="display:none;gap:10px;align-items:center">
   <div class="menu-wrap">
-    <button id="btnData">ข้อมูล ▾</button>
+    <button id="btnData" aria-haspopup="menu">ข้อมูล ▾</button>
     <div class="menu" id="dataMenu">
       <div class="menu-status" id="saveStat"></div>
       <button id="btnSync" style="display:none">ดึงข้อมูลจากชีท (ซิงก์)</button>
@@ -948,9 +834,9 @@
   </div>
   </span>
   <span class="mh-divider"></span>
-  <button class="theme-btn" id="themeBtn" title="สลับโหมดมืด/สว่าง">☾</button>
+  <button class="theme-btn" id="themeBtn" title="สลับโหมดมืด/สว่าง" aria-label="สลับโหมดมืด/สว่าง">☾</button>
   <div class="menu-wrap">
-    <button class="who-chip" id="whoChip"></button>
+    <button class="who-chip" id="whoChip" aria-haspopup="menu"></button>
     <div class="menu user-menu" id="userMenu">
       <div class="um-row">
         <div class="um-avatar" id="umAvatar"></div>
@@ -966,7 +852,7 @@
   <input type="file" id="fileXlsx" accept=".xlsx,.xls,.csv" hidden>
   <input type="file" id="fileJson" accept=".json" hidden>
 </header>
-<div id="noticeBar" class="notice" style="display:none"></div>
+<div id="noticeBar" class="notice" role="status" style="display:none"></div>
 
 <!-- ================= TO-DO PAGE ================= -->
 <div id="pageDash" class="dash">
@@ -977,20 +863,20 @@
       <section class="board-sec plain">
         <div class="sec-head">
           <h3 id="todoHead">To-do
-            <span class="pr-legend"><i class="td-high"></i>สูง <i class="td-med"></i>กลาง <i class="td-low"></i>ต่ำ</span>
+            <span class="pr-legend" title="สีขอบซ้ายของการ์ดบอกความสำคัญ"><i class="td-high"></i>สูง <i class="td-med"></i>กลาง <i class="td-low"></i>ต่ำ</span>
           </h3>
           <div class="sec-tools">
-            <select id="ownerFilter" class="sort-sel"><option value="">ผู้รับผิดชอบ: ทั้งหมด</option></select>
-            <select id="todoSort" class="sort-sel">
+            <select id="ownerFilter" class="sort-sel" aria-label="กรองตามผู้รับผิดชอบ"><option value="">ผู้รับผิดชอบ: ทั้งหมด</option></select>
+            <select id="todoSort" class="sort-sel" aria-label="เรียงลำดับ">
               <option value="custom">เรียง: กำหนดเอง (ลากจัดได้)</option>
               <option value="due">เรียง: ใกล้กำหนดก่อน</option>
               <option value="pr">เรียง: ความสำคัญ</option>
             </select>
-            <div class="view-toggle" id="scopeTg">
+            <div class="view-toggle" id="scopeTg" role="group" aria-label="ขอบเขต">
               <button data-sc="team" class="active">ของทีม</button>
               <button data-sc="me">ของฉัน</button>
             </div>
-            <div class="view-toggle">
+            <div class="view-toggle" role="group" aria-label="มุมมอง">
               <button id="tvBoard" class="active">บอร์ด</button>
               <button id="tvTable">ตาราง</button>
               <button id="tvCal">ปฏิทิน</button>
@@ -1001,20 +887,21 @@
         <div class="board" id="board"></div>
         <div class="todo-cal" id="todoCalWrap" style="display:none">
           <div class="cal-nav">
-            <button id="calPrev">&lt;</button>
-            <span id="calLabel"></span>
-            <button id="calNext">&gt;</button>
+            <button id="calPrev" aria-label="เดือนก่อน">‹</button>
+            <span id="calLabel" aria-live="polite"></span>
+            <button id="calNext" aria-label="เดือนถัดไป">›</button>
           </div>
+          <p class="cal-empty" id="calEmpty" hidden>เดือนนี้ยังไม่มีงานที่ตั้งกำหนดเสร็จไว้ — ตั้งวันในฟอร์มงานเพื่อให้แสดงในปฏิทิน</p>
           <div class="cal-grid" id="calGrid"></div>
         </div>
         <div class="todo-tablewrap" id="todoTableWrap" style="display:none">
           <div class="tbl-bar">
-            <input id="tblQ" class="fast-add" style="min-width:190px" placeholder="ค้นหาในตาราง…">
-            <select id="tblStatus" class="sort-sel">
+            <input id="tblQ" class="fast-add" type="search" placeholder="ค้นหาชื่องาน ผู้รับผิดชอบ โน้ต" aria-label="ค้นหาในตาราง">
+            <select id="tblStatus" class="sort-sel" aria-label="กรองสถานะ">
               <option value="">สถานะ: ทั้งหมด</option>
               <option value="todo">ต้องทำ</option><option value="doing">กำลังทำ</option><option value="done">เสร็จแล้ว</option>
             </select>
-            <select id="tblPr" class="sort-sel">
+            <select id="tblPr" class="sort-sel" aria-label="กรองความสำคัญ">
               <option value="">ความสำคัญ: ทั้งหมด</option>
               <option value="high">สูง</option><option value="med">กลาง</option><option value="low">ต่ำ</option>
             </select>
@@ -1037,26 +924,26 @@
 
       <!-- ขวา: สรุปงานประจำสัปดาห์ (แนวตั้ง) -->
       <aside class="board-sec week-side" id="weekSide">
-        <div class="sec-head" style="margin-bottom:8px">
+        <div class="sec-head">
           <h3>สรุปประจำสัปดาห์</h3>
           <span style="display:flex;gap:6px">
-            <button id="copyWeek" class="side-toggle" title="คัดลอกสรุปเป็นข้อความ">คัดลอกรายงาน</button>
+            <button id="copyWeek" class="side-toggle" title="คัดลอกสรุปเป็นข้อความ">คัดลอก</button>
             <button id="sideToggle" class="side-toggle" title="ย่อแถบสรุป">ย่อ</button>
           </span>
         </div>
         <div class="week-nav">
-          <button id="wkPrev" title="สัปดาห์ก่อน">&lt;</button>
+          <button id="wkPrev" title="สัปดาห์ก่อน" aria-label="สัปดาห์ก่อน">‹</button>
           <div class="week-title">
             <h2 id="wkRange"></h2>
             <p>จันทร์ – อาทิตย์</p>
           </div>
-          <button id="wkNext" title="สัปดาห์ถัดไป">&gt;</button>
+          <button id="wkNext" title="สัปดาห์ถัดไป" aria-label="สัปดาห์ถัดไป">›</button>
         </div>
         <button id="wkToday" class="wk-today">กลับมาสัปดาห์นี้</button>
         <div class="weekstrip" id="weekStrip"></div>
       </aside>
-      <div class="week-rail" id="weekRail" title="เปิดแถบสรุปประจำสัปดาห์">
-        <span class="rail-arrow">&lt;</span>
+      <div class="week-rail" id="weekRail" title="เปิดแถบสรุปประจำสัปดาห์" role="button" tabindex="0">
+        <span class="rail-arrow">‹</span>
         <span class="rail-badge" id="railCnt">0</span>
         <span class="rail-tx">สรุปสัปดาห์</span>
       </div>
@@ -1067,35 +954,36 @@
 <!-- ================= FOLLOW-UP PAGE ================= -->
 <div id="pageFollow" style="display:none">
 <button class="fab" id="btnAdd" title="เพิ่มงาน Follow-up ใหม่">+ เพิ่มงาน</button>
-<div class="summary" id="summary"></div>
+<div class="fu-head"><h1>Follow-up</h1><p>งานแก้ปัญหาตามสถานี ผู้รับผิดชอบ และกำหนดส่ง</p></div>
+<div class="summary" id="summary" role="group" aria-label="กรองตามสถานะ"></div>
 
 <div class="controls-outer">
 <div class="controls">
   <div class="searchbox" id="searchbox">
-    <span class="icon">⌕</span>
-    <input type="search" id="q" placeholder="ค้นหาทุกอย่าง — ชื่อ, สถานี, SSID, ผู้รับผิดชอบ, รายละเอียด…" autocomplete="off">
+    <span class="icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5" stroke-linecap="round"/></svg></span>
+    <input type="search" id="q" placeholder="ค้นหาชื่อ สถานี SSID ผู้รับผิดชอบ รายละเอียด" autocomplete="off" aria-label="ค้นหา Follow-up">
     <kbd>/</kbd>
-    <button class="clear" id="qClear" title="ล้างคำค้น">✕</button>
+    <button class="clear" id="qClear" title="ล้างคำค้น" aria-label="ล้างคำค้น">✕</button>
   </div>
-  <select id="fStatus">
+  <select id="fStatus" aria-label="สถานะ">
     <option value="">สถานะ: ทั้งหมด</option>
     <option value="Not started">ยังไม่เริ่ม</option><option value="In progress">กำลังทำ</option><option value="On hold">พักไว้</option><option value="Completed">เสร็จแล้ว</option><option value="Cancelled">ยกเลิก</option>
   </select>
-  <select id="fPriority">
+  <select id="fPriority" aria-label="Priority">
     <option value="">Priority: ทั้งหมด</option>
     <option value="P0">P0 ด่วนที่สุด</option><option value="P1">P1 สูง</option><option value="P2">P2 กลาง</option><option value="P3">P3 ต่ำ</option>
   </select>
-  <select id="fOwner"><option value="">ผู้รับผิดชอบ: ทั้งหมด</option></select>
-  <select id="fCat"><option value="">หมวดสถานี: ทั้งหมด</option></select>
-  <select id="fSort">
+  <select id="fOwner" aria-label="ผู้รับผิดชอบ"><option value="">ผู้รับผิดชอบ: ทั้งหมด</option></select>
+  <select id="fCat" aria-label="หมวดสถานี"><option value="">หมวดสถานี: ทั้งหมด</option></select>
+  <select id="fSort" aria-label="เรียงลำดับ">
     <option value="">เรียง: ตามลำดับเดิม</option>
-    <option value="end">ใกล้กำหนดส่งก่อน</option>
-    <option value="priority">Priority สูงก่อน</option>
-    <option value="status">สถานะ</option>
-    <option value="name">ชื่อ A→Z</option>
+    <option value="end">เรียง: ใกล้กำหนดส่งก่อน</option>
+    <option value="priority">เรียง: Priority สูงก่อน</option>
+    <option value="status">เรียง: ตามสถานะ</option>
+    <option value="name">เรียง: ชื่อ A–Z</option>
   </select>
-  <span class="stat" id="countChip"></span>
-  <div class="view-toggle">
+  <span class="stat" id="countChip" aria-live="polite"></span>
+  <div class="view-toggle" role="group" aria-label="มุมมอง">
     <button id="vCards" class="active">การ์ด</button>
     <button id="vTable">ตาราง</button>
   </div>
@@ -1117,17 +1005,23 @@
   </div>
 </div>
 
-<div class="empty" id="emptyState" hidden>
-  <strong>ยังไม่มีข้อมูล</strong>
-  <span id="emptyMsg">กด "+ เพิ่มงาน" หรือ "นำเข้า Excel/CSV" เพื่อเริ่มต้น</span>
+<div class="empty" id="emptyState" role="status" hidden>
+  <strong id="emptyTitle">ยังไม่มีงาน Follow-up</strong>
+  <span id="emptyMsg">เพิ่มงานแรก หรือนำเข้าไฟล์ Excel ของทีม</span>
+  <div class="empty-acts">
+    <button class="add-btn" id="emptyAdd">+ เพิ่มงาน</button>
+    <button class="tool-btn" id="emptyImport">นำเข้า Excel/CSV</button>
+    <button class="tool-btn" id="emptyReset" hidden>ล้างตัวกรองทั้งหมด</button>
+  </div>
 </div>
 </div><!-- /pageFollow -->
 
 <!-- Google Sheet dialog -->
 <dialog id="sheetDlg">
-  <div class="m-head"><span>เชื่อมต่อ Google Sheet</span><button id="sheetClose" title="ปิด">✕</button></div>
+  <div class="m-head"><span>เชื่อมต่อ Google Sheet</span><button id="sheetClose" title="ปิด" aria-label="ปิด">✕</button></div>
   <div class="m-body" style="grid-template-columns:1fr">
-    <div class="field full" style="font-size:13px;font-weight:700;color:var(--ink)">แบบซิงก์สองทาง (แนะนำ) — แก้ในเว็บแล้วเขียนกลับชีทอัตโนมัติ</div>
+    <div class="m-err" id="sheetErr" role="alert" hidden></div>
+    <div class="field full m-sec">แบบซิงก์สองทาง (แนะนำ)<div class="m-help">แก้ในเว็บแล้วเขียนกลับชีทให้อัตโนมัติ</div></div>
     <div class="field full">
       <label>Apps Script Web App URL (ลงท้าย /exec)</label>
       <input id="sheetApp" placeholder="https://script.google.com/macros/s/....../exec">
@@ -1136,26 +1030,21 @@
       <label>Token (ตามที่ตั้งไว้ในสคริปต์)</label>
       <input id="sheetToken" placeholder="เช่น TE-ITH02-2026">
     </div>
-    <div class="field full" style="font-size:12px;color:var(--ink-soft);line-height:1.6">
-      ติดตั้งครั้งเดียว: เปิดชีท → Extensions → Apps Script → วางโค้ดจากไฟล์ te-sync-apps-script → ตั้ง TOKEN →
-      Deploy เป็น Web app (Execute as: Me / Who has access: Anyone) → คัดลอก URL มาวางที่นี่
+    <div class="field full m-help">
+      ติดตั้งครั้งเดียว:
+      <ol><li>เปิดชีท แล้วไปที่ Extensions › Apps Script</li><li>วางโค้ดจากไฟล์ te-sync-apps-script และตั้งค่า TOKEN</li><li>Deploy เป็น Web app (Execute as: Me, Who has access: Anyone)</li><li>คัดลอก URL มาวางด้านบน</li></ol>
     </div>
-    <hr style="border:none;border-top:1px solid var(--line)">
-    <div class="field full" style="font-size:13px;font-weight:700;color:var(--ink)">หรือ แบบอ่านอย่างเดียว (ลิงก์ชีทธรรมดา)</div>
+    <hr class="full" style="border:none;border-top:1px solid var(--line)">
+    <div class="field full m-sec">หรือแบบอ่านอย่างเดียว<div class="m-help">ใช้ลิงก์ชีทธรรมดา ดึงเข้าเว็บได้อย่างเดียว</div></div>
     <div class="field full">
       <label>ลิงก์ Google Sheet</label>
       <input id="sheetUrl" placeholder="https://docs.google.com/spreadsheets/d/....">
     </div>
-    <div class="field full" style="font-size:12px;color:var(--ink-soft);line-height:1.6">
-      ต้องแชร์ชีทเป็น "ทุกคนที่มีลิงก์ – ผู้มีสิทธิ์ดู" · ดึงเข้าอย่างเดียว แก้ในเว็บไม่ย้อนกลับชีท
-    </div>
-    <div class="field full" style="display:flex;align-items:center;gap:8px">
-      <input type="checkbox" id="sheetAuto" style="width:auto">
-      <label for="sheetAuto" style="margin:0;text-transform:none;font-size:13px;color:var(--ink)">ดึงอัตโนมัติทุก 60 วินาที</label>
-    </div>
+    <div class="field full m-help">ต้องแชร์ชีทเป็น "ทุกคนที่มีลิงก์ – ผู้มีสิทธิ์ดู" การแก้ไขในเว็บจะไม่ถูกเขียนกลับไปที่ชีท</div>
+    <div class="field full"><label class="chk-row" for="sheetAuto"><input type="checkbox" id="sheetAuto">ดึงข้อมูลอัตโนมัติทุก 60 วินาที</label></div>
   </div>
   <div class="m-foot">
-    <button id="sheetDisconnect" style="margin-right:auto;color:var(--red)">ยกเลิกการเชื่อมต่อ</button>
+    <button id="sheetDisconnect" class="danger-link">ยกเลิกการเชื่อมต่อ</button>
     <button id="sheetCancel">ปิด</button>
     <button class="save" id="sheetSave">บันทึก &amp; ดึงข้อมูล</button>
   </div>
@@ -1163,7 +1052,7 @@
 
 <!-- View dialog (อ่านอย่างเดียว) -->
 <dialog id="viewDlg">
-  <div class="m-head"><span id="viewTitle"></span><button id="viewClose" title="ปิด">✕</button></div>
+  <div class="m-head"><span id="viewTitle"></span><button id="viewClose" title="ปิด" aria-label="ปิด">✕</button></div>
   <div class="view-body" id="viewBody"></div>
   <div class="m-foot">
     <button id="viewMakeTodo" style="margin-right:auto;display:none">+ สร้าง to-do จากงานนี้</button>
@@ -1174,15 +1063,15 @@
 
 <!-- Calendar day popup -->
 <dialog id="calDlg" class="cal-dlg">
-  <div class="m-head"><span id="calDlgTitle"></span><button id="calDlgClose" title="ปิด">✕</button></div>
+  <div class="m-head"><span id="calDlgTitle"></span><button id="calDlgClose" title="ปิด" aria-label="ปิด">✕</button></div>
   <div class="cal-dlg-body" id="calDlgBody"></div>
 </dialog>
 
 <!-- Todo edit dialog -->
 <dialog id="todoDlg">
-  <div class="m-head"><span id="todoDlgTitle">แก้ไขงาน To-do</span><button id="todoClose" title="ปิด">✕</button></div>
+  <div class="m-head"><span id="todoDlgTitle">แก้ไขงาน To-do</span><button id="todoClose" title="ปิด" aria-label="ปิด">✕</button></div>
   <div class="m-body">
-    <div class="field full"><label>ชื่องาน</label><input id="tTitle"></div>
+    <div class="field full"><label for="tTitle">ชื่องาน</label><input id="tTitle" required><div class="f-err">ใส่ชื่องานก่อนบันทึก</div></div>
     <div class="field"><label>สถานะ</label>
       <select id="tCol"><option value="todo">ต้องทำ</option><option value="doing">กำลังทำ</option><option value="done">เสร็จแล้ว</option></select>
     </div>
@@ -1197,7 +1086,7 @@
     <div class="field full"><label>โน้ต</label><textarea id="tNote"></textarea></div>
   </div>
   <div class="m-foot">
-    <button id="tDelete" style="margin-right:auto;color:var(--red)">ลบงาน</button>
+    <button id="tDelete" class="danger-link">ลบงาน</button>
     <button id="tCancel">ยกเลิก</button>
     <button class="save" id="tSave">บันทึก</button>
   </div>
@@ -1205,7 +1094,7 @@
 
 <!-- Edit dialog -->
 <dialog id="editDlg">
-  <div class="m-head"><span id="dlgTitle">แก้ไขงาน Follow-up</span><button id="dlgClose" title="ปิด">✕</button></div>
+  <div class="m-head"><span id="dlgTitle">แก้ไขงาน Follow-up</span><button id="dlgClose" title="ปิด" aria-label="ปิด">✕</button></div>
   <div class="m-body">
     <div class="field full"><label>ชื่องาน</label><input id="eName"></div>
     <div class="field full" id="catField"><label>หมวดสถานี</label><input id="eCat" list="catList" placeholder="เช่น FA, SA, OQC, RD"><datalist id="catList"></datalist></div>
@@ -1219,13 +1108,13 @@
     <div class="field full"><label>โน้ต</label><textarea id="eNote"></textarea></div>
   </div>
   <div class="m-foot">
-    <button id="dlgDelete" style="margin-right:auto;color:var(--red)">ลบรายการ</button>
+    <button id="dlgDelete" class="danger-link">ลบรายการ</button>
     <button id="dlgCancel">ยกเลิก</button>
     <button class="save" id="dlgSave">บันทึก</button>
   </div>
 </dialog>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 "use strict";
@@ -1318,9 +1207,9 @@ function subItem(s){
   return `<div class="sub-item" data-id="${s.id}">
     <span class="sub-dot d-${pill("",s.status).slice(1)}" title="${s.status}"></span>
     ${s.cat?`<span class="cat-chip" style="${catStyle(s.cat)}">${esc(s.cat)}</span>`:""}
-    <span class="s-name" data-open="${s.id}">${s.name?highlight(s.name):'<span style="color:#a6adb6">(ไม่ระบุสถานี)</span>'}</span>
+    <span class="s-name" data-open="${s.id}">${s.name?highlight(s.name):'<span class="muted">(ไม่ระบุสถานี)</span>'}</span>
     ${s.owner?`<span class="who">${highlight(s.owner)}</span>`:""}
-    ${s.end?`<span class="who ${isOverdue(s)?'dates overdue':''}">${s.end}</span>`:""}
+    ${s.end?`<span class="who ${isOverdue(s)?'dates overdue':''}">${fmtDz(s.end)}</span>`:""}
   </div>`;
 }
 function cardHTML(r, subList){
@@ -1335,7 +1224,7 @@ function cardHTML(r, subList){
   const showSubsSection = subList.length && !lightSingle;
   return `<article class="action-card pr-${r.priority}" data-id="${r.id}">
     <div class="card-head">
-      <div class="name" data-open="${r.id}">${r.name?highlight(r.name):'<span style="color:#a6adb6">(ไม่มีชื่อ)</span>'}</div>
+      <div class="name" data-open="${r.id}">${r.name?highlight(r.name):'<span class="muted">(ไม่มีชื่อ)</span>'}</div>
       <span class="pill ${pill("s",r.status)}">${ST_TH[r.status]||r.status}</span>
       <span class="hover-acts">
         <button class="icon-btn" data-act="edit" title="แก้ไข">แก้ไข</button>
@@ -1361,10 +1250,10 @@ function cardHTML(r, subList){
 /* ===== table view ===== */
 function tRow(r,sub,parent){
   const nameCell = sub
-    ? `<span style="color:#a6adb6;font-size:12px">${esc(parent?.name||"")}</span>`
-    : (r.name?highlight(r.name):'<span style="color:#a6adb6">(ไม่มีชื่อ)</span>');
+    ? `<span class="muted" style="font-size:12px">${esc(parent?.name||"")}</span>`
+    : (r.name?highlight(r.name):'<span class="muted">(ไม่มีชื่อ)</span>');
   const stationCell = sub
-    ? `${r.cat?`<span class="cat-chip" style="${catStyle(r.cat)}">${esc(r.cat)}</span> `:""}${r.name?highlight(r.name):'<span style="color:#a6adb6">(ไม่ระบุสถานี)</span>'}`
+    ? `${r.cat?`<span class="cat-chip" style="${catStyle(r.cat)}">${esc(r.cat)}</span> `:""}${r.name?highlight(r.name):'<span class="muted">(ไม่ระบุสถานี)</span>'}`
     : "";
   return `<tr class="${sub?"sub-row":"main-row"}" data-open="${r.id}">
     <td class="tname">${nameCell}</td>
@@ -1373,8 +1262,8 @@ function tRow(r,sub,parent){
     <td><span class="pill ${pill("p",r.priority)}">${PR_LABEL[r.priority]||r.priority}</span></td>
     <td>${highlight(r.owner)}</td>
     <td><span class="pill ${pill("s",r.status)}">${ST_TH[r.status]||r.status}</span></td>
-    <td>${r.start||""}</td>
-    <td${isOverdue(r)?' style="color:var(--red);font-weight:600"':""}>${r.end||""}</td>
+    <td class="tnum">${r.start?fmtDz(r.start):""}</td>
+    <td class="tnum"${isOverdue(r)?' style="color:var(--red);font-weight:600"':""}>${r.end?fmtDz(r.end):""}</td>
     <td>${highlight(r.note)}</td></tr>`;
 }
 
@@ -1411,11 +1300,17 @@ function render(){
   }
   cardsEl.innerHTML=cardHtml; tbody.innerHTML=tblHtml;
   emptyState.hidden = shown>0;
-  document.getElementById("emptyMsg").textContent = rows.length ? "ลองปรับคำค้นหรือตัวกรอง" : 'กด "+ เพิ่ม Action" หรือ "นำเข้า Excel/CSV" เพื่อเริ่มต้น';
-  document.getElementById("countChip").innerHTML = filtering ? `<b>${shown}</b> / ${rows.length} งาน` : `<b>${rows.length}</b> งาน`;
+  const noData=!rows.length;
+  document.getElementById("emptyTitle").textContent = noData ? "ยังไม่มีงาน Follow-up" : "ไม่พบงานที่ตรงกับตัวกรอง";
+  document.getElementById("emptyMsg").textContent = noData ? "เพิ่มงานแรก หรือนำเข้าไฟล์ Excel ของทีมเพื่อเริ่มติดตาม" : "ลองใช้คำค้นที่สั้นลง หรือล้างตัวกรองเพื่อดูงานทั้งหมด";
+  document.getElementById("emptyAdd").hidden = !noData;
+  document.getElementById("emptyImport").hidden = !noData;
+  document.getElementById("emptyReset").hidden = noData;
+  if(view==="table") tableWrap.style.display = shown?"block":"none";
+  document.getElementById("countChip").innerHTML = filtering ? `แสดง <b>${shown}</b> จาก ${rows.length} งาน` : `<b>${rows.length}</b> งาน`;
   if(typeof page!=="undefined" && page==="dash") renderDash();
   document.getElementById("hitbar").innerHTML = tokens.length
-    ? `<span>พบ <b>${shown}</b> งานที่ตรงกับ “${esc(qEl.value.trim())}” — คำที่ตรงถูกไฮไลต์สีเหลือง และกล่องรายละเอียดที่พบคำค้นจะกางออกให้อัตโนมัติ</span>` : "";
+    ? `พบ <b>${shown}</b> งานที่ตรงกับ “${esc(qEl.value.trim())}” · กล่องรายละเอียดที่มีคำค้นจะกางออกให้อัตโนมัติ` : "";
 }
 
 /* ===== sorting ===== */
@@ -1423,7 +1318,7 @@ const fSort=document.getElementById("fSort");
 fSort.addEventListener("change",render);
 function sortedRows(){
   const k=fSort.value; if(!k) return rows;
-  const P={P0:0,P1:1,P2:2,P3:3}, S={"In progress":0,"Not started":1,"On hold":2,"Done":3,"Cancelled":4};
+  const P={P0:0,P1:1,P2:2,P3:3}, S={"In progress":0,"Not started":1,"On hold":2,"Completed":3,"Done":3,"Cancelled":4};
   const arr=[...rows];
   arr.sort((a,b)=>{
     if(k==="end"){ const va=a.end||"9999", vb=b.end||"9999"; return va<vb?-1:va>vb?1:0; }
@@ -1462,6 +1357,7 @@ function setView(v){
   vCards.classList.toggle("active",v==="cards"); vTable.classList.toggle("active",v==="table");
   cardsEl.style.display = v==="cards"?"grid":"none";
   tableWrap.style.display = v==="table"?"block":"none";
+  if(typeof rows!=="undefined" && rows.length) render();
 }
 vCards.onclick=()=>setView("cards"); vTable.onclick=()=>setView("table");
 
@@ -1474,7 +1370,8 @@ function openDlg(id){
   editingId=id;
   const r=rec.row;
   const isStation = !!rec.parent;
-  F("dlgTitle").textContent = isStation ? "แก้ไขสถานีที่พบปัญหา" : "แก้ไขงาน Follow-up";
+  F("dlgTitle").textContent = isStation ? "แก้ไขสถานีที่พบปัญหา" : (draftId===id ? "เพิ่มงาน Follow-up" : "แก้ไขงาน Follow-up");
+  F("dlgDelete").style.display = draftId===id ? "none" : "";
   F("eName").closest(".field").querySelector("label").textContent = isStation ? "ชื่อสถานี / จุดที่พบปัญหา" : "ชื่องาน";  document.getElementById("catField").style.display = isStation ? "" : "none";
   F("eCat").value=r.cat||"";
   F("eName").value=r.name; F("eSsid").value=r.ssid; F("eActivity").value=r.activity;
@@ -1525,7 +1422,8 @@ function undoDelete(){
 }
 function toastUndo(msg,fn){
   const t=document.getElementById("toast");
-  t.innerHTML=esc(msg)+' <button id="undoBtn" style="margin-left:10px;background:none;border:1px solid rgba(255,255,255,.5);color:#fff;border-radius:6px;padding:3px 12px;cursor:pointer;pointer-events:auto">เลิกทำ</button>';
+  t.classList.remove("err");
+  t.innerHTML='<span>'+esc(msg)+'</span><button id="undoBtn" class="toast-act">เลิกทำ</button>';
   t.style.pointerEvents="auto";
   t.classList.add("show");
   document.getElementById("undoBtn").onclick=()=>{ (fn||undoDelete)(); t.classList.remove("show"); t.style.pointerEvents="none"; };
@@ -1668,6 +1566,7 @@ function parseWorkbook(wb){
 
 document.getElementById("fileXlsx").addEventListener("change",e=>{
   const f=e.target.files[0]; if(!f) return;
+  if(!needXlsx()){ e.target.value=""; return; }
   const rd=new FileReader();
   rd.onload=()=>{
     try{
@@ -1679,19 +1578,20 @@ document.getElementById("fileXlsx").addEventListener("change",e=>{
       toast(`นำเข้าแล้ว ${imported.length} งาน`);
       if(replace) pushOp({op:"replaceAll",rows:rows.map(rowToRemote)});
       else pushOp({op:"upsertMany",rows:imported.map(rowToRemote)});
-    }catch(err){ console.error(err); alert(importErrMsg(err)); }
+    }catch(err){ console.error(err); toastErr("นำเข้าไม่สำเร็จ", importErrMsg(err)); }
     e.target.value="";
   };
   rd.readAsArrayBuffer(f);
 });
 function importErrMsg(err){
-  if(err&&err.message==="noheader") return "ไม่พบหัวตารางที่รู้จัก — ต้องมีคอลัมน์เช่น Name, Owner, Status ฯลฯ";
-  if(err&&err.message==="nodata") return "ไม่พบข้อมูลในไฟล์";
-  return "อ่านไฟล์ไม่สำเร็จ — ตรวจสอบว่าเป็น .xlsx/.xls/.csv ที่ถูกต้อง";
+  if(err&&err.message==="noheader") return "ไม่พบหัวตารางที่รู้จัก ไฟล์ต้องมีคอลัมน์อย่างน้อย 2 คอลัมน์ เช่น Name, Owner, Status";
+  if(err&&err.message==="nodata") return "ไฟล์นี้มีหัวตารางแต่ไม่มีแถวงาน";
+  return "อ่านไฟล์ไม่ได้ ตรวจว่าเป็นไฟล์ .xlsx, .xls หรือ .csv ที่เปิดได้ใน Excel";
 }
 
 /* ---------- Excel export ---------- */
 document.getElementById("btnExportXlsx").onclick=()=>{
+  if(!needXlsx()) return;
   const head=["Name","Sub-Lines","Category","Model (SSID)","Activity","Priority","Owner","Status","Start date","End date","Note"];
   const data=[head];
   rows.forEach(r=>{
@@ -1727,7 +1627,7 @@ document.getElementById("fileJson").addEventListener("change",e=>{
       const fixS=x=>x.status==="Done"?"Completed":(x.status||"Not started");
       rows=data.map(r=>Object.assign(blank(),r,{priority:fixP(r),status:fixS(r),id:r.id||nid(),subs:(r.subs||[]).map(s=>Object.assign(blank(),s,{priority:fixP(s),status:fixS(s),id:s.id||nid()}))}));
       reindexAll(); render(); toast("เปิดไฟล์แล้ว");
-    }catch{ alert("อ่านไฟล์ JSON ไม่สำเร็จ"); }
+    }catch{ toastErr("เปิดไฟล์ JSON ไม่สำเร็จ","ไฟล์ต้องเป็น JSON ที่ได้จากเมนู “สำรองเป็น JSON” ของเว็บนี้"); }
     e.target.value=""; };
   rd.readAsText(f);
 });
@@ -1747,7 +1647,7 @@ function persist(){
       localStorage.setItem(SKEY,JSON.stringify(clean));
       const t=new Date();
       document.getElementById("saveStat").textContent="บันทึกอัตโนมัติ "+t.toTimeString().slice(0,5);
-    }catch(e){ document.getElementById("saveStat").textContent="⚠ บันทึกอัตโนมัติไม่สำเร็จ"; }
+    }catch(e){ document.getElementById("saveStat").textContent="บันทึกอัตโนมัติไม่สำเร็จ พื้นที่เบราว์เซอร์อาจเต็ม — สำรองเป็น JSON ไว้ก่อน"; setDataState("warn"); }
   },400);
 }
 function loadPersisted(){
@@ -1764,6 +1664,7 @@ function loadPersisted(){
 /* ===== data menu ===== */
 const dataMenu=document.getElementById("dataMenu"), btnData=document.getElementById("btnData");
 btnData.onclick=e=>{ e.stopPropagation(); dataMenu.classList.toggle("open"); };
+dataMenu.addEventListener("click",e=>{ if(e.target.closest("button")) dataMenu.classList.remove("open"); });
 document.addEventListener("click",e=>{ if(!e.target.closest(".menu-wrap")) dataMenu.classList.remove("open"); });
 document.getElementById("btnClear").onclick=()=>{
   dataMenu.classList.remove("open");
@@ -1821,6 +1722,7 @@ let syncQ=[]; try{ const q=localStorage.getItem(QKEY); if(q) syncQ=JSON.parse(q)
 let flushing=false;
 function saveQ(){ try{ localStorage.setItem(QKEY,JSON.stringify(syncQ)); }catch(e){} }
 function syncNote(msg){ btnDataNote(msg); }
+function setDataState(st){ const b=document.getElementById("btnData"); if(b){ if(st) b.dataset.state=st; else delete b.dataset.state; } document.getElementById("saveStat")?.classList.toggle("warn",st==="warn"); }
 function rowToRemote(r){
   return { id:r.id, name:r.name,
     station:(r.subs||[]).map(s=>s.name).filter(Boolean).join(", "),
@@ -1835,7 +1737,7 @@ function pushOp(op){
 async function flushQ(){
   if(flushing) return;
   if(!appUrlOk(sheetCfg.app)||!sheetCfg.token) return;
-  flushing=true;
+  flushing=true; setDataState("busy");
   try{
     while(syncQ.length){
       syncNote(`รอซิงก์ชีท ${syncQ.length} รายการ…`);
@@ -1845,10 +1747,10 @@ async function flushQ(){
       if(!j.ok) throw new Error(j.err||"sync");
       syncQ.shift(); saveQ();
     }
-    syncNote("ซิงก์ชีทแล้ว "+new Date().toTimeString().slice(0,5));
+    syncNote("ซิงก์ชีทแล้ว "+new Date().toTimeString().slice(0,5)); setDataState("");
   }catch(e){
     console.warn("sync fail",e);
-    syncNote(`ซิงก์ไม่สำเร็จ — ค้าง ${syncQ.length} รายการ (จะลองใหม่อัตโนมัติ)`);
+    syncNote(`ซิงก์ไม่สำเร็จ ค้าง ${syncQ.length} รายการ จะลองใหม่ทุก 30 วินาที`); setDataState("warn");
   }finally{ flushing=false; }
 }
 setInterval(()=>{ if(syncQ.length) flushQ(); },30000);
@@ -1863,7 +1765,9 @@ async function pullSheet(silent){
   if(!appUrlOk(sheetCfg.app) && !sheetIdFrom(sheetCfg.url)) return;
   if(syncing) return;
   const btn=document.getElementById("btnSync");
-  syncing=true; btn.disabled=true; const oldTxt=btn.textContent; btn.textContent="กำลังดึง…";
+  if(!appUrlOk(sheetCfg.app) && !needXlsx()) return;
+  syncing=true; btn.disabled=true; const oldTxt=btn.textContent; btn.textContent="กำลังดึงข้อมูล…";
+  document.body.classList.add("syncing"); setDataState("busy"); if(!silent) toast("กำลังดึงข้อมูลจากชีท…");
   try{
     let imported;
     if(appUrlOk(sheetCfg.app)){
@@ -1888,20 +1792,22 @@ async function pullSheet(silent){
     if(!silent && rows.length && !confirm(`ดึงได้ ${imported.length} งานจากชีท\n\nแทนที่ข้อมูลในเว็บด้วยข้อมูลจากชีท?`)){ return; }
     rows=imported; reindexAll(); render();
     const t=new Date().toTimeString().slice(0,5);
-    btnDataNote(`ซิงก์ล่าสุด ${t}`);
+    btnDataNote(`ซิงก์ล่าสุด ${t}`); setDataState("");
     if(!silent) toast(`ดึงข้อมูลแล้ว ${imported.length} งาน (${t})`);
   }catch(err){
     console.error(err);
     if(!silent){
-      if(err.message==="token") alert("Token ไม่ตรงกับที่ตั้งไว้ในสคริปต์ — ตรวจค่า TOKEN ใน Apps Script ให้ตรงกัน");
-      else if(err.message==="perm"||/failed to fetch/i.test(err.message||""))
-        alert(appUrlOk(sheetCfg.app)
-          ?"ดึงข้อมูลไม่สำเร็จ\n\nตรวจสอบว่า:\n1) URL ลงท้ายด้วย /exec (ไม่ใช่ /dev)\n2) Deploy แบบ Who has access: Anyone\n3) หลังแก้โค้ดสคริปต์ต้อง Deploy → Manage deployments → Edit → New version\n4) เครื่องต่ออินเทอร์เน็ตอยู่"
-          :"ดึงข้อมูลไม่สำเร็จ\n\nตรวจสอบว่า:\n1) ชีทตั้งแชร์เป็น \"ทุกคนที่มีลิงก์ – ผู้มีสิทธิ์ดู\"\n2) ลิงก์ถูกต้อง\n3) เครื่องต่ออินเทอร์เน็ตอยู่");
-      else alert(importErrMsg(err));
-    } else btnDataNote("⚠ ซิงก์ไม่สำเร็จ");
+      if(err.message==="token") toastErr("ดึงข้อมูลจากชีทไม่สำเร็จ","Token ไม่ตรงกับในสคริปต์ ตรวจค่า TOKEN ใน Apps Script ให้ตรงกับที่ใส่ไว้ในเว็บ");
+      else if(err.message==="perm"||/failed to fetch|http /i.test(err.message||""))
+        toastErr("ดึงข้อมูลจากชีทไม่สำเร็จ", appUrlOk(sheetCfg.app)
+          ?"ตรวจว่า\n1) URL ลงท้ายด้วย /exec (ไม่ใช่ /dev)\n2) Deploy แบบ Who has access: Anyone\n3) หลังแก้สคริปต์ ต้อง Deploy › Manage deployments › Edit › New version\n4) เครื่องต่ออินเทอร์เน็ตอยู่"
+          :"ตรวจว่า\n1) ชีทแชร์เป็น “ทุกคนที่มีลิงก์ – ผู้มีสิทธิ์ดู”\n2) ลิงก์ถูกต้อง\n3) เครื่องต่ออินเทอร์เน็ตอยู่");
+      else toastErr("ดึงข้อมูลจากชีทไม่สำเร็จ", importErrMsg(err));
+    } else btnDataNote("ซิงก์อัตโนมัติไม่สำเร็จ จะลองใหม่รอบถัดไป");
+    setDataState("warn");
   }finally{
     syncing=false; btn.disabled=false; btn.textContent=oldTxt;
+    document.body.classList.remove("syncing"); if(document.getElementById("btnData").dataset.state==="busy") setDataState("");
   }
 }
 function btnDataNote(msg){ document.getElementById("saveStat").textContent=msg; }
@@ -1915,6 +1821,7 @@ document.getElementById("btnSheetCfg").onclick=()=>{
   document.getElementById("sheetApp").value=sheetCfg.app||"";
   document.getElementById("sheetToken").value=sheetCfg.token||"";
   document.getElementById("sheetAuto").checked=!!sheetCfg.auto;
+  document.getElementById("sheetErr").hidden=true;
   sheetDlg.showModal();
 };
 document.getElementById("sheetCancel").onclick=document.getElementById("sheetClose").onclick=()=>sheetDlg.close();
@@ -1925,10 +1832,11 @@ document.getElementById("sheetSave").onclick=()=>{
   const url=document.getElementById("sheetUrl").value.trim();
   const app=document.getElementById("sheetApp").value.trim();
   const token=document.getElementById("sheetToken").value.trim();
-  if(app && !appUrlOk(app)){ alert("Apps Script URL ไม่ถูกต้อง — ต้องขึ้นต้นด้วย https://script.google.com/ และลงท้าย /exec"); return; }
-  if(app && !token){ alert("โหมดซิงก์สองทางต้องใส่ Token ให้ตรงกับในสคริปต์"); return; }
-  if(!app && url && !sheetIdFrom(url)){ alert("ลิงก์ชีทไม่ถูกต้อง — ต้องเป็น https://docs.google.com/spreadsheets/d/XXXX/..."); return; }
-  if(!app && !url){ alert("กรอกอย่างน้อยหนึ่งช่อง: Apps Script URL (สองทาง) หรือ ลิงก์ชีท (อ่านอย่างเดียว)"); return; }
+  const bad=(msg,id)=>{ const e=document.getElementById("sheetErr"); e.textContent=msg; e.hidden=false; document.getElementById(id).focus(); };
+  if(app && !appUrlOk(app)) return bad("Apps Script URL ต้องขึ้นต้นด้วย https://script.google.com/ และลงท้ายด้วย /exec","sheetApp");
+  if(app && !token) return bad("โหมดซิงก์สองทางต้องใส่ Token ให้ตรงกับในสคริปต์","sheetToken");
+  if(!app && url && !sheetIdFrom(url)) return bad("ลิงก์ชีทต้องอยู่ในรูป https://docs.google.com/spreadsheets/d/…","sheetUrl");
+  if(!app && !url) return bad("กรอก Apps Script URL (ซิงก์สองทาง) หรือลิงก์ชีท (อ่านอย่างเดียว) อย่างน้อยหนึ่งช่อง","sheetApp");
   sheetCfg.url=url; sheetCfg.app=app; sheetCfg.token=token;
   sheetCfg.auto=document.getElementById("sheetAuto").checked;
   saveSheetCfg(); applySheetCfg(); sheetDlg.close();
@@ -2012,6 +1920,10 @@ const fmtDz=dz=>{ if(!dz) return ""; const d=new Date(dz+"T00:00:00"); return is
 /* ---- render ---- */
 const COLS=[["todo","ต้องทำ","#b6bcc4"],["doing","กำลังทำ","var(--blue)"],["done","เสร็จแล้ว","var(--green)"]];
 const PR_TH={high:"สูง",med:"กลาง",low:"ต่ำ"};
+const EMPTY_COL={
+  todo:"ไม่มีงานค้าง<small>พิมพ์ในช่องด้านบนเพื่อเพิ่มงาน</small>",
+  doing:"ยังไม่มีงานที่กำลังทำ<small>ลากการ์ดมาที่นี่เมื่อเริ่มทำ</small>",
+  done:"ยังไม่มีงานเสร็จในสัปดาห์นี้<small>ลากการ์ดมาที่นี่เมื่อทำเสร็จ</small>"};
 function todoCard(t){
   const late=t.due && t.col!=="done" && t.due<todayStr();
   const meta=[];
@@ -2021,12 +1933,12 @@ function todoCard(t){
   if(t.link && byId.get(t.link)) meta.push(`<span class="link-chip" data-flink="${t.link}" title="เปิดงาน Follow-up ที่เกี่ยวข้อง">${esc(byId.get(t.link).row.name)}</span>`);
   return `<div class="todo-card pr-${t.pr||"med"} ${t.col==="done"?"done":""}" draggable="true" tabindex="0" role="button" aria-label="${esc(t.title)}" data-tid="${t.id}">
     <div class="t-title"><span class="t-dot td-${t.pr||"med"}" title="ความสำคัญ: ${PR_TH[t.pr||"med"]}"></span>${esc(t.title)}</div>
-    ${meta.length?`<div class="t-meta">${meta.join(" · ")}</div>`:""}
+    ${meta.length?`<div class="t-meta">${meta.join("")}</div>`:""}
     ${t.note?`<div class="t-note">${esc(t.note)}</div>`:""}
     <div class="t-tools">
-      ${t.col!=="todo"?`<button data-mv="-1" title="ย้ายซ้าย">&lt;</button>`:""}
-      ${t.col!=="done"?`<button data-mv="1" title="ย้ายขวา">&gt;</button>`:""}
-      <button class="dngr" data-tdel="1" title="ลบ">ลบ</button>
+      ${t.col!=="todo"?`<button data-mv="-1" title="ย้ายกลับ" aria-label="ย้ายกลับ">‹</button>`:""}
+      ${t.col!=="done"?`<button data-mv="1" title="ย้ายไปขั้นถัดไป" aria-label="ย้ายไปขั้นถัดไป">›</button>`:""}
+      <button class="dngr" data-tdel="1" title="ลบ" aria-label="ลบงาน">ลบ</button>
     </div>
   </div>`;
 }
@@ -2043,7 +1955,7 @@ function renderBoard(){
     }
     return `<div class="col" data-col="${key}">
       <div class="col-head"><span class="dot" style="background:${color}"></span>${label}${key==="done"?'<span class="col-note">สัปดาห์นี้</span>':""}<span class="cnt">${items.length}</span></div>
-      <div class="col-body">${key==="todo"?'<div class="col-add"><input id="fastAdd" placeholder="+ พิมพ์งานใหม่ กด Enter" autocomplete="off"></div>':""}${items.map(todoCard).join("")||(key!=="todo"?'<div class="dropzone">ลากการ์ดมาวาง</div>':"")}
+      <div class="col-body">${key==="todo"?'<div class="col-add"><input id="fastAdd" placeholder="+ พิมพ์งานใหม่ แล้วกด Enter" autocomplete="off" aria-label="เพิ่มงานใหม่"></div>':""}${items.map(todoCard).join("")||`<div class="dropzone">${EMPTY_COL[key]}</div>`}
       ${archived?`<button class="arch-link" data-showarch="1">งานเสร็จก่อนหน้านี้ ${archived} รายการ — ดูในตาราง</button>`:""}</div>
     </div>`;
   }).join("");
@@ -2056,7 +1968,7 @@ function renderWeek(){
   { const a=iso(ws), b=iso(we);
     const n=todos.filter(t=>(t.doneAt&&t.doneAt>=a&&t.doneAt<=b)||(t.due&&t.due>=a&&t.due<=b&&t.col!=="done")).length;
     const el=document.querySelector(".week-side .sec-head h3");
-    if(el) el.innerHTML=`สรุปประจำสัปดาห์ <span class="panel-sub">${n} งานในสัปดาห์นี้</span>`;
+    if(el) el.innerHTML=`สรุปประจำสัปดาห์ <span class="panel-sub">${n?`${n} งานในสัปดาห์นี้`:"ไม่มีงานที่ครบกำหนดหรือเสร็จในสัปดาห์นี้"}</span>`;
   }
   const s0=iso(ws), s1=iso(we), today=todayStr();
   /* แถบ 7 วัน */
@@ -2071,7 +1983,7 @@ function renderWeek(){
     });
     const wkend=d.getDay()===0||d.getDay()===6;
     html+=`<div class="daycol ${dz===today?"today":""} ${wkend?"wkend":""}">
-      <div class="d-head"><span>${THDAY[d.getDay()]}${dz===today?' <span class="today-tag">วันนี้</span>':""}</span><span class="d-date">${fmtD(d)}${items.length?` · <span class="d-cnt">${items.length} งาน</span>`:""}</span></div>
+      <div class="d-head"><span>${THDAY[d.getDay()]}${dz===today?' <span class="today-tag">วันนี้</span>':""}</span><span class="d-date">${items.length?`<span class="d-cnt">${items.length} งาน</span>&ensp;`:""}${fmtD(d)}</span></div>
       ${items.map(x=>`<div class="d-item" data-tedit="${x.tid}"><span class="d-tag ${x.cls}">${x.tag}</span><span class="tx">${esc(x.tx)}</span></div>`).join("")}
       ${!items.length?'<div class="d-none">—</div>':""}
     </div>`;
@@ -2213,6 +2125,8 @@ function renderTodoCal(){
     </div>`;
   }
   document.getElementById("calGrid").innerHTML=html;
+  const mPre=`${y}-${String(m+1).padStart(2,"0")}-`;
+  document.getElementById("calEmpty").hidden = Object.keys(byDue).some(k=>k.startsWith(mPre));
 }
 /* popup รายการงานของวัน */
 const calDlg=document.getElementById("calDlg");
@@ -2275,14 +2189,15 @@ function renderTodoTable(){
       <td><span class="pill ${t.col==="done"?"s-Completed":t.col==="doing"?"s-In-progress":"s-Not-started"}">${COL_TH[t.col]}</span></td>
       <td><span class="tpr tpr-${t.pr||"med"}">${PR_TH[t.pr||"med"]}</span></td>
       <td>${esc(t.owner||"")}</td>
-      <td${late?' style="color:var(--red);font-weight:650"':""}>${t.due||""}</td>
-      <td>${t.doneAt||""}</td>
+      <td class="tnum"${late?' style="color:var(--red);font-weight:600"':""}>${t.due?fmtDz(t.due):""}</td>
+      <td class="tnum">${t.doneAt?fmtDz(t.doneAt):""}</td>
       <td>${esc(t.note||"")}</td></tr>`;
-  }).join("")||'<tr><td colspan="7" style="text-align:center;color:var(--ink-faint)">ยังไม่มีงาน</td></tr>';
+  }).join("")||`<tr><td colspan="7" class="empty-cell">${todos.length?"ไม่พบงานที่ตรงกับคำค้นหรือตัวกรอง":"ยังไม่มีงาน กด “+ เพิ่มงาน” เพื่อเริ่ม"}</td></tr>`;
 }
 
 /* ส่งออก Excel (เฉพาะ to-do) */
 document.getElementById("btnTodoXlsx").onclick=()=>{
+  if(!needXlsx()) return;
   const head=["ชื่องาน","สถานะ","ความสำคัญ","ผู้รับผิดชอบ","กำหนดเสร็จ","เสร็จเมื่อ","โน้ต"];
   const data=[head, ...todos.map(t=>[t.title,COL_TH[t.col],PR_TH[t.pr||"med"],t.owner||"",t.due||"",t.doneAt||"",t.note||""])];
   const ws=XLSX.utils.aoa_to_sheet(data);
@@ -2328,6 +2243,8 @@ function openTodoDlg(id){
   document.getElementById("todoDlgTitle").textContent = t ? "แก้ไขงาน To-do" : "เพิ่มงาน To-do";
   document.getElementById("tDelete").style.display = t ? "" : "none";
   document.getElementById("tTitle").value = t?t.title:"";
+  document.getElementById("tTitle").closest(".field").classList.remove("invalid");
+  document.getElementById("tTitle").removeAttribute("aria-invalid");
   document.getElementById("tDue").value = t?(t.due||""):todayStr();
   document.getElementById("tPr").value = t?(t.pr||"med"):"med";
   opInit("opTodo", t?(t.owner||""):"");
@@ -2341,7 +2258,7 @@ document.getElementById("tSave").onclick=()=>{
   let t=todos.find(x=>x.id===editTodoId);
   if(!t){
     const nm=document.getElementById("tTitle").value.trim();
-    if(!nm){ alert("กรุณาใส่ชื่องาน"); return; }
+    if(!nm){ const f=document.getElementById("tTitle"); f.closest(".field").classList.add("invalid"); f.setAttribute("aria-invalid","true"); f.focus(); return; }
     t={id:tid(),title:nm,due:"",pr:"med",owner:(todoScope==="me"&&currentUser)?currentUser.name:"",note:"",repeat:"",col:"todo",created:todayStr(),doneAt:"",link:pendingLink||""};
     pendingLink=null;
     todos.unshift(t);
@@ -2449,6 +2366,7 @@ function setSide(off){
 }
 document.getElementById("sideToggle").onclick=()=>setSide(true);
 document.getElementById("weekRail").onclick=()=>setSide(false);
+document.getElementById("weekRail").addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); setSide(false); } });
 try{ if(localStorage.getItem(SIDEKEY)==="1") setSide(true); }catch(e){}
 
 /* คีย์บอร์ด: ลูกศรซ้าย/ขวาเลื่อนคอลัมน์ Enter แก้ไข Delete ลบ */
@@ -2481,7 +2399,7 @@ function renderNotice(){
   const bar=document.getElementById("noticeBar");
   if(usingMockRows||usingMockTodos){
     bar.className="notice n-mock"; bar.style.display="flex";
-    bar.innerHTML=`กำลังแสดง<b>ข้อมูลตัวอย่าง</b> — เริ่มใช้จริงโดยนำเข้า Excel ของทีม หรือ
+    bar.innerHTML=`กำลังแสดง<b>ข้อมูลตัวอย่าง</b> เริ่มใช้จริงได้โดยนำเข้า Excel ของทีม หรือ
       <button id="nStart">เริ่มใช้จริง (ล้างตัวอย่าง)</button>`;
     document.getElementById("nStart").onclick=()=>{
       if(!confirm("ล้างข้อมูลตัวอย่างทั้งหมด (To-do และ Follow-up) เพื่อเริ่มใช้จริง?")) return;
@@ -2493,7 +2411,7 @@ function renderNotice(){
   }
   if(!noticeDismissed && canStore && (rows.length||todos.length) && daysSinceExport()>7){
     bar.className="notice n-backup"; bar.style.display="flex";
-    bar.innerHTML=`ยังไม่ได้สำรองข้อมูลเกิน 7 วัน — ข้อมูลเก็บในเบราว์เซอร์เครื่องนี้เท่านั้น
+    bar.innerHTML=`ยังไม่ได้สำรองข้อมูลเกิน 7 วัน ข้อมูลเก็บอยู่ในเบราว์เซอร์เครื่องนี้เท่านั้น
       <button id="nBackup">สำรองตอนนี้ (Excel)</button>
       <button class="n-x" id="nX" title="ปิดการแจ้งเตือน">ปิด</button>`;
     document.getElementById("nBackup").onclick=backupAll;
@@ -2504,6 +2422,7 @@ function renderNotice(){
 }
 /* สำรองทุกอย่างเป็น Excel ไฟล์เดียว (2 ชีท) */
 function backupAll(){
+  if(!needXlsx()) return;
   const wb=XLSX.utils.book_new();
   const fuHead=["Name","Sub-Lines","Category","Model (SSID)","Activity","Priority","Owner","Status","Start date","End date","Note"];
   const fuData=[fuHead];
@@ -2525,8 +2444,25 @@ function backupAll(){
 let toastTimer=null;
 function toast(msg){
   const t=document.getElementById("toast");
+  t.classList.remove("err"); t.style.pointerEvents="none"; t.setAttribute("role","status");
   t.textContent=msg; t.classList.add("show");
-  clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove("show"),2200);
+  clearTimeout(toastTimer); clearTimeout(undoTimer); toastTimer=setTimeout(()=>t.classList.remove("show"),2400);
+}
+/* ข้อความผิดพลาด: บอกว่าเกิดอะไรขึ้นและแก้อย่างไร ค้างไว้จนกว่าจะปิดหรือครบ 9 วินาที */
+function toastErr(title,detail){
+  const t=document.getElementById("toast");
+  t.classList.add("err"); t.setAttribute("role","alert");
+  t.innerHTML=`<div><strong>${esc(title)}</strong>${esc(detail||"")}</div><button class="toast-act" aria-label="ปิด">✕</button>`;
+  t.style.pointerEvents="auto"; t.classList.add("show");
+  t.querySelector(".toast-act").onclick=()=>{ t.classList.remove("show"); t.style.pointerEvents="none"; };
+  clearTimeout(toastTimer); clearTimeout(undoTimer);
+  toastTimer=setTimeout(()=>{ t.classList.remove("show"); t.style.pointerEvents="none"; },9000);
+}
+/* ไลบรารี Excel โหลดจาก CDN — ถ้าออฟไลน์จะไม่มี */
+function needXlsx(){
+  if(typeof XLSX!=="undefined") return true;
+  toastErr("ใช้งาน Excel ไม่ได้ตอนนี้","โหลดตัวอ่าน/เขียน Excel ไม่สำเร็จ ตรวจการเชื่อมต่ออินเทอร์เน็ตแล้วรีเฟรชหน้า ระหว่างนี้ใช้ “สำรองเป็น JSON” แทนได้");
+  return false;
 }
 
 /* ===== ข้อมูลตัวอย่าง (mockup) ===== */
@@ -2693,6 +2629,15 @@ function opAdd(elId){
 }
 const opValue=elId=>(opState[elId]||[]).join(", ");
 
+/* ===== ปุ่มใน empty state ===== */
+document.getElementById("emptyAdd").onclick=()=>document.getElementById("btnAdd").click();
+document.getElementById("emptyImport").onclick=()=>document.getElementById("btnImportXlsx").click();
+document.getElementById("emptyReset").onclick=()=>{
+  qEl.value=""; setQuery(""); searchbox.classList.remove("has-value");
+  [fStatus,fPriority,fOwner,fCat].forEach(el=>el.value=""); kpiFilter="";
+  render();
+};
+
 /* ===== micro-delight: ตัวเลขนับขึ้น + pulse ===== */
 let countedFollow=false, prevCnt={};
 function countUp(el){
@@ -2728,7 +2673,9 @@ function setTheme(dark){
   try{ localStorage.setItem(THKEY,dark?"1":""); }catch(e){}
 }
 themeBtn.onclick=()=>setTheme(!document.body.classList.contains("dark"));
-try{ if(localStorage.getItem(THKEY)==="1") setTheme(true); }catch(e){}
+{ let pref=null; try{ pref=localStorage.getItem(THKEY); }catch(e){}
+  if(pref==="1") setTheme(true);
+  else if(pref===null && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) document.body.classList.add("dark"), themeBtn.textContent="☀"; }
 
 /* ===== Login (รหัสพนักงาน — ไม่สนตัวเล็กใหญ่) ===== */
 /* บัญชีสาธิต — ไม่ใช่รหัสพนักงานจริง */
@@ -2752,7 +2699,7 @@ function tryLogin(){
     try{ localStorage.setItem(LKEY,JSON.stringify(currentUser)); }catch(e){}
     enterApp();
   } else {
-    lgErr.classList.add("show");
+    lgErr.classList.add("show"); lgId.setAttribute("aria-invalid","true");
     const card=document.querySelector(".lg-card");
     card.classList.remove("shake"); void card.offsetWidth; card.classList.add("shake");
     lgId.select();
@@ -2768,7 +2715,7 @@ function enterApp(){
 }
 document.getElementById("lgGo").onclick=tryLogin;
 lgId.addEventListener("keydown",e=>{ if(e.key==="Enter") tryLogin(); });
-lgId.addEventListener("input",()=>lgErr.classList.remove("show"));
+lgId.addEventListener("input",()=>{ lgErr.classList.remove("show"); lgId.removeAttribute("aria-invalid"); });
 const userMenu=document.getElementById("userMenu");
 function fillUserMenu(){
   if(!currentUser) return;
@@ -2804,7 +2751,7 @@ document.getElementById("btnLogout").onclick=()=>{
   setTimeout(()=>lgId.focus(),300);
 })();
 
-if(!canStore){ document.getElementById("saveStat").textContent="โหมดชั่วคราว — กด ข้อมูล ▾ เพื่อสำรอง JSON"; }
+if(!canStore){ document.getElementById("saveStat").textContent="เบราว์เซอร์นี้ไม่ให้บันทึกอัตโนมัติ ข้อมูลจะหายเมื่อปิดหน้า สำรองเป็น JSON ก่อนปิด"; setDataState("warn"); }
 </script>
 </body>
 </html>
